@@ -1,7 +1,7 @@
 # Личный проект «Что посмотреть»
 
-* Студент: [Ivan Merkulov](https://up.htmlacademy.ru/nodejs-api/3/user/2109415).
-* Наставник: `Неизвестно`.
+- Студент: [Ivan Merkulov](https://up.htmlacademy.ru/nodejs-api/3/user/2109415).
+- Наставник: [Владимир Якушкин](https://htmlacademy.ru/profile/id126208).
 
 ---
 
