@@ -1,0 +1,96 @@
+{
+  "api": {
+    "title": ["Accident",
+  "Born Losers",
+  "Case of the Naves Brothers ",
+  "Day of Anger",
+  "Doctor, You've Got to Be Kidding!",
+  "Easy Come, Easy Go,"
+  ],
+    "description":[
+      "This title suggests an air of eternal romance. When your movie is about a pair of vampires, it doesn’t get much better than that.",
+      "This is a title that imparts a kind of mythic stature (“The Man Who Shot Liberty Valance” implies that this was some epic feat, even if we don’t know who Liberty Valance was before we see the picture) while also offering you a bit of puzzle to solve as well. The film has two stars... so which of the two is the man who shot Liberty Valance? The answer, as we’ll see in the film, is complicated — which only makes the title more interesting.",
+      "Besides the fact that this was about as sexy as a movie title could be in 1959, there is an unspoken implication here by calling it “Some” Like It Hot, as if to ask the viewer, “Are you one of the some, or are you not?” By buying a ticket, you are almost joining a secret club.",
+      "The phrase originated with Ringo, but it came to describe exactly the situation that spawned it. (The band had worked so long he didn’t realize what time it was, and start saying it was a hard day’s work and then switched mid-sentence to calling it a hard day’s night.) When you’ve been working like a dog, accept no substitute descriptor.",
+      "One of the all time great come hithers in movie advertising. “Look, do you want to see Patrick Swayze and Jennifer Grey dirty dancing? Of course you do. That’s what we got. You want deeply intellectual conversation, or probing political commentary? Look elsewhere. We’re dirty dancing over here.”",
+      "The title is technically nonsense — there is no such thing as “north by northwest” on a compass — which is partly why Hitchcock liked it. (“It’s a fantasy,” Hitchcock noted in an interview, explaining that the made-up title is the ideal name for a film in which very little is what it appears to be at first glance.)",
+      "It’s a title that is at once extremely descriptive and also very mysterious. If you’re a UFO expert, you know what it means (an interaction between a human and a physical alien presence) but even if you don’t, the notion of a “close” encounter lets you know where this film is headed."
+    ],
+  "postDate": [],
+  "genres": [
+    "comedy",
+    "crime",
+    "documentary",
+    "drama",
+    "horror",
+    "family",
+    "romance",
+    "scifi",
+    "thriller"
+  ],
+  "released": [],
+  "rating": [],
+  "previewVideoLink": [
+    "www.previewVideoLink1.com",
+    "www.previewVideoLink2.com",
+    "www.previewVideoLink3.com",
+    "www.previewVideoLink4.com"
+  ],
+  "videoLink": [
+    "www.videoLink1.com",
+    "www.videoLink2.com",
+    "www.videoLink3.com",
+    "www.videoLink4.com"
+  ],
+  "staring": [
+    "Jack Nicholson",
+    "Daniel Day-Lewis",
+    "Tom Hanks",
+    "Mohanlal",
+    "Leonardo DiCaprio",
+    "Robert De Niro",
+    "Al Pacino",
+    "Dustin Hoffman",
+    "Paul Newman",
+    "Anthony Hopkins",
+    "Laurence Olivier",
+    "Jack Lemmon",
+    "Marlon Brando",
+    "Choi Min-Sik"
+  ],
+  "director": [
+    "Wes Anderson",
+    "Terence Davies",
+    "David Fincher",
+    "Christopher Nolan",
+    "Bong Joon-Ho",
+    "Quentin Tarantino",
+    "Coen Brothers",
+    "Abbas Kiarostami",
+    "Martin Scorsese",
+    "Steven Spielberg"
+  ],
+  "runTime": [],
+  "posterImage": [
+    "book.jpg",
+    "institute-book.jpg",
+    "dark-tower.jpg",
+    "shining.jpg",
+    "draft.jpg",
+    "magic.jpg"
+  ],
+  "backgroundImage": [
+    "book.jpg",
+    "institute-book.jpg",
+    "dark-tower.jpg",
+    "shining.jpg",
+    "draft.jpg",
+    "magic.jpg"
+  ],
+  "backgroundColor": [
+    "#ffffff",
+    "#aaaaaa",
+    "#000000"
+  ]
+  }
+}
