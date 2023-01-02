@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { MovieCard } from '../types/moviecard.type';
+import { MovieCard } from '../types/movie-card.type';
 
 export const printObjectWithChalk = (obj:MovieCard) => {
 
