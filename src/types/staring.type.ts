@@ -1,3 +1,3 @@
 export type Staring = {
-  name: string;
+  starName: string;
 }
