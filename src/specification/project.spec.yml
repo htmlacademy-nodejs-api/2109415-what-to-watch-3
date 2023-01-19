@@ -1,0 +1,720 @@
+openapi: 3.1.0
+info:
+  title: API сервер для проекта «Что посмотреть».
+  description: |-
+    * Список ресурсов и маршрутов сервера «Что посмотреть».
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 2.0.0
+tags:
+   - name: Films
+     description: Действия с фильмами.
+   - name: Favorite
+     description: Действия с просмотром фильмов.
+   - name: Comments
+     description: Действия с комментариями.
+   - name: Users
+     description: Действия с пользователем.
+
+paths:
+  /films:
+    post:
+      tags:
+       - Films
+      summary: Добавление нового фильма
+      description: Добавляет объект карточки фильма.
+      operationId: postFilms
+      requestBody:
+        description: Объект с новым фильмом
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Film'
+        required: true
+      responses:
+        '200':
+          description: Объект фильма
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  allOf:
+                    - $ref: '#/components/schemas/Film'
+                    - type: object
+        '400':
+          description: Ошибка тела запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorMessage'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthErrorMessage'
+      security:
+        - tokenAuth: []
+
+    put:
+      tags:
+        - Films
+      summary: Редактирование карточки фильма
+      description: Редактирует карточку выбранного фильма. Для авторизированных.
+      operationId: updateFilm
+      requestBody:
+        description: Объект с отредактированным фильмом
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Film'
+        required: true
+      responses:
+        '200':
+          description: Объект обновленного фильма
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  allOf:
+                    - $ref: '#/components/schemas/Film'
+                    - type: object
+        '400':
+          description: Ошибка тела запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorMessage'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthErrorMessage'
+      security:
+        - tokenAuth: []
+
+    delete:
+      tags:
+        - Films
+      summary: Удаление карточки фильма
+      description: Удаляет карточку выбранного фильма. Для авторизированных.
+      operationId: deleteFilm
+      requestBody:
+        description: Объект с удаляемым фильмом
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Film'
+        required: true
+      responses:
+        '200':
+          description: Объект обновленного фильма
+          content:
+            application/json:
+              schema:
+                - $ref: '#/components/schemas/DeleteFilmSuccessMessage'
+        '400':
+          description: Ошибка тела запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorMessage'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthErrorMessage'
+        '403':
+          description: У пальзователя нет прав
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermisionErrorMessage'
+
+  /films/list:
+    post:
+      tags:
+        - Films
+      summary: Получeние списка фильмов
+      description: Возвращает массив фильмов. Каждый фильм описан в виде объекта.
+      operationId: getFilms
+      requestBody:
+        description: Отправляем требуемное количество фильмов(60 по умолчанию).
+        content:
+          application/json:
+            schema:
+              type: number
+              example: 120
+        required: true
+      responses:
+        '200':
+          description: Массив фильмов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  allOf:
+                    - $ref: '#/components/schemas/FilmInList'
+                    - type: object
+
+  /films/list/{genre}:
+    get:
+      tags:
+        - Films
+      summary: Получeние списка фильмов определённого жанра
+      description: Возвращает массив фильмов. Каждый фильм описан в виде объекта.
+      operationId: getFilmsByGenre
+      parameters:
+      - name: genre
+        in: path
+        description: Уникальный жанр для выборки фильмов
+        required: true
+        schema:
+          type: string
+          example: Comedy
+      responses:
+        '200':
+          description: Массив фильмов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  allOf:
+                    - $ref: '#/components/schemas/FilmInList'
+                    - type: object
+        '404':
+          description: Фильм не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorMessage'
+
+  /films/{filmId}/details:
+    get:
+      tags:
+        - Films
+      summary: Получение детальной информации по фильму
+      description: Возвращает фильм с идентификатором `filmId`.
+      operationId: getFilmById
+      parameters:
+        - name: filmId
+          in: path
+          description: Уникальный идентификатор фильма
+          required: true
+          schema:
+            type: number
+            example: 1
+      responses:
+        '200':
+          description: Объект фильма
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Film'
+
+  /promo:
+    get:
+      tags:
+        - Films
+      summary: Получить промо-фильм
+      description: Возвращает фильм в виде объекта.
+      operationId: getPromoFilm
+      responses:
+        '200':
+          description: Объект фильма
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Film'
+
+  /favorite:
+    get:
+      tags:
+        - Favorite
+      summary: Получить список фильмов «к просмотру»
+      description: Возвращает массив фильмов, добавленных в список «к просмотру».
+      operationId: getFavorites
+      parameters:
+        - name: X-Token
+          in: header
+          description: Авторизационный токен пользователя
+          required: true
+          schema:
+            type: string
+            example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
+      responses:
+        '200':
+          description: Массив фильмов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FilmInList'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthErrorMessage'
+      security:
+        - tokenAuth: []
+
+  /favorite/{filmId}/{status}:
+    post:
+      tags:
+        - Favorite
+      summary: Изменить статус «к просмотру» у фильма
+      description: Возвращает фильм с идентификатором `filmId` с актуальным состоянием поля `isFavorite`
+      operationId: postFavorite
+      parameters:
+        - name: filmId
+          in: path
+          description: Уникальный идентификатор фильма
+          required: true
+          schema:
+            type: number
+            example: 1
+        - name: status
+          in: path
+          description: Статус фильма. Может быть `1` или `0`, где `1` добавляет фильма в список «к просмотру», а `0` удаляет
+          required: true
+          schema:
+            type: number
+            example: 1
+        - name: X-Token
+          in: header
+          description: Авторизационный токен пользователя
+          required: true
+          schema:
+            type: string
+            example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
+      responses:
+        '200':
+          description: Объект фильма
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FilmInList'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthErrorMessage'
+      security:
+        - tokenAuth: []
+
+  /comments/{filmId}:
+    get:
+      tags:
+        - Comments
+      summary: Получить список комментариев
+      description: Возвращает список комментариев для фильма с идентификатором `filmId`.
+      operationId: getComment
+      parameters:
+        - name: filmId
+          in: path
+          description: Уникальный идентификатор фильма
+          required: true
+          schema:
+            type: number
+            example: 1
+        - name: X-Token
+          in: header
+          description: Авторизационный токен пользователя
+          required: false
+          schema:
+            type: string
+            example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
+      responses:
+        '200':
+          description: Массив комментариев
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommentGet'
+        '400':
+          description: Ошибка тела запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorMessage'
+    post:
+      tags:
+        - Comments
+      summary: Добавить новый комментарий
+      description: Добавляет новый комментарий для фильма с идентификатором `filmId`.
+      operationId: postComment
+      parameters:
+        - name: X-Token
+          in: header
+          description: Авторизационный токен пользователя
+          required: true
+          schema:
+            type: string
+            example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
+        - name: filmId
+          in: path
+          description: Уникальный идентификатор фильма
+          required: true
+          schema:
+            type: number
+            example: 1
+      requestBody:
+        description: Объект с новым комментарием
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentPost'
+        required: true
+      responses:
+        '200':
+          description: Массив комментариев для фильма с идентификатором `filmId`
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommentGet'
+        '400':
+          description: Ошибка тела запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorMessage'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthErrorMessage'
+      security:
+        - tokenAuth: []
+
+  /users/register:
+    post:
+      tags:
+        - Users
+      summary: Регистрация пользователя
+      description: Регистрирует нового пользователя.
+
+      requestBody:
+        description: Информация для создания нового пользователя.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+        required: true
+      responses:
+        "201":
+          description: Пользователь зарегистрирован. Объект пользователя.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+        "409":
+          description: Пользователь с таким email уже существует.
+
+  /users/login:
+    post:
+      tags:
+        - Users
+      summary: Авторизация пользователя
+      description: Авторизует пользователя на основе логина и пароля. В случае успешного запроса сервер вернёт токен, по которому в дальнейшем происходит авторизация. Этот токен необходимо передавать через заголовок X-Token. Если авторизация не проходит, сервер вернёт код состояния 401 при запросах на закрытые части сайта.
+      operationId: postLogin
+      requestBody:
+        description: Объект, содержащий логин и пароль пользователя.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        '200':
+          description: Статус авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthInfo'
+        '400':
+          description: Ошибка тела запроса
+          content: {}
+
+    get:
+      tags:
+        - Users
+      summary: Проверка состояния пользователя
+      description: Возвращает информацию по авторизованному пользователю
+      operationId: getUserStatus
+      parameters:
+        - name: X-Token
+          in: header
+          description: Авторизационный токен пользователя
+          required: true
+          schema:
+            type: string
+            example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
+      responses:
+        '200':
+          description: Статус авторизации пользователя
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthInfo'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthErrorMessage'
+      security:
+        - tokenAuth: []
+
+  /user/logout:
+    delete:
+      tags:
+        - Users
+      summary: Завершение сеанс пользователя
+      description: Завершает сеанс работы — выход из закрытой части приложения.
+      operationId: deleteLogout
+      parameters:
+        - name: X-Token
+          in: header
+          description: Авторизационный токен пользователя
+          required: true
+          schema:
+            type: string
+            example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
+      responses:
+        '204':
+          description: Сеанс завершён
+      security:
+        - tokenAuth: []
+
+
+components:
+  schemas:
+
+    Film:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        title:
+          type: string
+          example: The Grand Budapest Hotel
+        description:
+          type: string
+          example:  In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave's friend and protege.
+        postDate:
+          type: string
+          example: 2019-05-08T14:13:56.569Z
+        genres:
+          type: string
+          example: "Comedy"
+        released:
+          type: number
+          example: 2014
+        rating:
+          type: number
+          example: 8.9
+        previewVideoLink:
+          type: string
+          example: https://some-link
+        videoLink:
+          type: string
+          example: https://some-link
+        staring:
+          type: array
+          items:
+            type: string
+            example: "Bill Murray"
+        director:
+          type: string
+          example: Wes Andersonstring
+        runTime:
+          type: number
+          example: 99
+        posterImage:
+          type: string
+          example: img/the-grand-budapest-hotel-poster.jpg
+        backgroundImage:
+          type: string
+          example: img/the-grand-budapest-hotel-bg.jpg
+        user:
+            type: object
+            properties:
+              id:
+                type: number
+                example: 4
+              name:
+                type: string
+                example: Kate Muir
+        commentsCount:
+            type: number
+            example: 4
+
+    FilmInList:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        title:
+          type: string
+          example: The Grand Budapest Hotel
+        postDate:
+          type: string
+          example: 2019-05-08T14:13:56.569Z
+        genres:
+          type: string
+          example: "Comedy"
+        released:
+          type: number
+          example: 2014
+        previewVideoLink:
+          type: string
+          example: https://some-link
+        user:
+            type: object
+            properties:
+              id:
+                type: number
+                example: 4
+              name:
+                type: string
+                example: Kate Muir
+        posterImage:
+          type: string
+          example: img/the-grand-budapest-hotel-poster.jpg
+        commentsCount:
+            type: number
+            example: 4
+
+    CommentGet:
+      type: object
+      properties:
+        id:
+         type: number
+         example: 1
+        comment:
+          type: string
+          example: Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the director's funniest and most exquisitely designed movies in years.
+        rating:
+          type: number
+          example: 8
+        date:
+          type: string
+          example: 2019-05-08T14:13:56.569Z
+        user:
+          type: object
+          properties:
+            id:
+              type: number
+              example: 4
+            name:
+              type: string
+              example: Kate Muir
+
+    CommentPost:
+      type: object
+      properties:
+        comment:
+          type: string
+          example: Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the director's funniest and most exquisitely designed movies in years.
+        rating:
+          type: number
+          example: 8
+
+    CreateUser:
+      type: object
+      properties:
+        email:
+          type: string
+          example: keks@htmlacademy.ru
+        name:
+          type: string
+          example: Cat
+        password:
+          type: string
+          example: 123456
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+        email:
+          type: string
+          example: keks@htmlacademy.ru
+
+    AuthInfo:
+      type: object
+      properties:
+        avatarUrl:
+          type: string
+          example: img/1.png
+        email:
+          type: string
+          example: Oliver.conner@gmail.com
+        id:
+          type: number
+          example: 1
+        name:
+          type: string
+          example: Oliver.conner
+        token:
+          type: string
+          example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
+
+    AuthErrorMessage:
+      type: object
+      properties:
+        error:
+          type: string
+          example: You are not logged in or you do not have permission to this page.
+
+    DeleteFilmSuccessMessage:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Film id 999 deleted.
+
+    NotFoundErrorMessage:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Film id 999 does not exist
+
+    PermisionErrorMessage:
+      type: object
+      properties:
+        error:
+          type: string
+          example: You have no permision for this procedure.
+
+  securitySchemes:
+    tokenAuth:
+      type: apiKey
+      name: X-Token
+      in: header
