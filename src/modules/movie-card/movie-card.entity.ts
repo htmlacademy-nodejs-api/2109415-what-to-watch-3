@@ -32,8 +32,11 @@ export class MovieCardEntity extends defaultClasses.TimeStamps {
   @prop()
   public released!: string;
 
-  @prop()
-  public rating!: string;
+  @prop({default: 0})
+  public totalRating!: number;
+
+  @prop({default: 0})
+  public rating!: number;
 
   @prop()
   public previewVideoLink!: string;
@@ -65,6 +68,11 @@ export class MovieCardEntity extends defaultClasses.TimeStamps {
   })
   public userId!:Ref<UserEntity>;
 
+  @prop()
+  public isFavorite!: boolean;
+
+  @prop()
+  public isPromo!: boolean;
 }
 
 
