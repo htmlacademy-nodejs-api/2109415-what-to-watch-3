@@ -2,6 +2,8 @@ export const textColors = ['black', 'red', 'green', 'yellow', 'blue', 'magenta',
 
 export const RATING_COUNT = 10;
 
+export const MAXIMUM_FILMS_COUNT = 60;
+
 export enum ReleasedYear {
   Min = 1880,
   Max = 2022,
