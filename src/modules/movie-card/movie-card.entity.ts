@@ -57,6 +57,9 @@ export class MovieCardEntity extends defaultClasses.TimeStamps {
   public backgroundImage!: string;
 
   @prop()
+  public backgroundColor!: string;
+
+  @prop()
   public director!: string;
 
   @prop({default: 0})

@@ -8,6 +8,7 @@ import { MovieCardServiceInterface } from './movie-card-service.interface.js';
 import { StatusCodes } from 'http-status-codes';
 import { fillDTO } from '../../utils/common.js';
 import MovieCardResponse from './response/movie-card.response.js';
+import CreateMovieCardDto from './dto/create-movie-card.dto.js';
 
  @injectable()
 export default class MovieCardController extends Controller {
@@ -29,7 +30,10 @@ export default class MovieCardController extends Controller {
     this.send(res, StatusCodes.OK, movieCardResponse);
   }
 
-  public create(_req: Request, _res: Response): void {
-    // Код обработчика
+  public async create( {body}: Request<Record<string, unknown>, Record<string, unknown>, CreateMovieCardDto>,
+    res: Response
+  ): Promise<void> {const result = await this.movieCardService.create(body);
+    const film = await this.movieCardService.findById(result.id);
+    this.created(res, fillDTO(MovieCardResponse, film));
   }
 }

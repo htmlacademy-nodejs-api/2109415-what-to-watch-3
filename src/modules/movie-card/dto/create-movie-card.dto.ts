@@ -13,5 +13,7 @@ export default class CreateMovieCardDto {
   public runTime!: string;
   public posterImage!: string;
   public backgroundImage!: string;
+  public backgroundColor!: string;
+
   public userId!: string;
 }

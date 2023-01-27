@@ -13,5 +13,8 @@ export type MockData = {
   runTime: string[],
   posterImage: string[],
   backgroundImage: string[],
-  backgroundColor: string[]
+  backgroundColor: string[],
+  email: string[],
+  avatar: string[],
+  name: string[]
 };

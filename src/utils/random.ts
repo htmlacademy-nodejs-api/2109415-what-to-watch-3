@@ -7,5 +7,8 @@ export const getRandomItems = <T>(items: T[]):T[] => {
   return items.slice(startPosition, endPosition);
 };
 
-export const getRandomItem = <T>(items: T[]):T =>
-  items[generateRandomValue(0, items.length - 1)];
+export const getRandomItem = <T>(items: T[]):T => {
+  const length = items.length;
+  const index = generateRandomValue(0, length - 1);
+  return items[index];
+};

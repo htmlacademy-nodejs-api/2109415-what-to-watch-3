@@ -25,12 +25,14 @@ export default class MovieCardGenerator implements MovieCardGeneratorInterface{
     const posterImage = getRandomItem<string>(this.mockData.posterImage);
     const backgroundImage = getRandomItem<string>(this.mockData.backgroundImage);
     const backgroundColor = getRandomItem<string>(this.mockData.backgroundColor);
-
-
+    const email = getRandomItem<string>(this.mockData.email);
+    // const avatar = getRandomItem<string>(this.mockData.avatar);
+    const avatar = 'user.jpg';
+    const name = getRandomItem<string>(this.mockData.name);
     return [
       title, description, postDate, genres, released, previewVideoLink,
       videoLink, staring, director, runTime, posterImage,
-      backgroundImage, backgroundColor
+      backgroundImage, backgroundColor, email, avatar, name
     ].join('\t');
   }
 }

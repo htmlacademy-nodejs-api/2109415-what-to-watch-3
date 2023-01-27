@@ -9,7 +9,6 @@ export const printObjectWithChalk = (obj:MovieCard) => {
       ${chalk.blue(`postDate: ${obj.postDate}`)}
       ${chalk.bgRed(`genres: ${obj.genres}`)}
       ${chalk.bgBlue(`released: ${obj.released}`)}
-      ${chalk.bgGreen(`rating: ${obj.rating}`)}
       ${chalk.bgYellow(`previewVideoLink: ${obj.previewVideoLink}`)}
       ${chalk.bgMagenta(`videoLink: ${obj.videoLink}`)}
       ${chalk.bgCyan(`staring: ${obj.staring}`)}
@@ -17,7 +16,6 @@ export const printObjectWithChalk = (obj:MovieCard) => {
       ${chalk.bgRedBright(`runTime: ${obj.runTime}`)}
       ${chalk.bgYellowBright(`posterImage: ${obj.posterImage}`)}
       ${chalk.cyanBright(`backgroundImage: ${obj.backgroundImage}`)}
-      ${chalk.bgBlackBright(`backgroundColor: ${obj.backgroundColor}`)}
 
 `);
 
