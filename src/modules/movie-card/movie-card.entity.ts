@@ -1,5 +1,4 @@
 import typegoose, {defaultClasses, getModelForClass, Ref} from '@typegoose/typegoose';
-import { Genre } from '../../types/genre-type.enum.js';
 import { UserEntity } from '../user/user.entity.js';
 import { Staring } from '../../types/staring.type.js';
 
@@ -23,11 +22,12 @@ export class MovieCardEntity extends defaultClasses.TimeStamps {
   @prop()
   public postDate!: Date;
 
-  @prop({
-    type: () => String,
-    enum: Genre
-  })
-  public type!: Genre;
+  // @prop({
+  //   type: () => String,
+  //   enum: Genre
+  // })
+  @prop()
+  public genres!: string[];
 
   @prop()
   public released!: string;

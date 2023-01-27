@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import { MovieCard} from '../types/movie-card.type.js';
 import { Staring} from '../types/staring.type.js';
-import { Genre} from '../types/genre-type.enum.js';
+import { ClassConstructor, plainToInstance } from 'class-transformer';
 
 export const createMovieCard = (row: string) => {
   const tokens = row.replace('\n', '').split('\t');
@@ -10,7 +10,7 @@ export const createMovieCard = (row: string) => {
     title,
     description,
     postDate: new Date(postDate),
-    genres: <Genre><unknown>genres.split(';').map((genre) => ({ genre })),
+    genres: <string[]><unknown>genres.split(';').map((genre) => ({ genre })),
     released,
     rating,
     previewVideoLink,
@@ -31,3 +31,6 @@ export const createSHA256 = (line: string, salt: string): string => {
   const shaHasher = crypto.createHmac('sha256', salt);
   return shaHasher.update(line).digest('hex');
 };
+
+export const fillDTO = <T, V>(someDto: ClassConstructor<T>, plainObject: V) =>
+  plainToInstance(someDto, plainObject, {excludeExtraneousValues: true});

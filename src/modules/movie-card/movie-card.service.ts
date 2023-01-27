@@ -47,18 +47,6 @@ export default class MovieCardService implements MovieCardServiceInterface{
     const limit = MAXIMUM_FILMS_COUNT;
     return this.movieCardModel
       .find({}, {}, {limit})
-      .aggregate([
-        {
-          $lookup: {
-            from: 'comments',
-            let: {movieCardId: '$_id'},
-            pipeline: [
-              { $match: {movieCardId: '$$movieCardId'}},
-              {group: {_id: '$$movieCardId', avarageRating: {$avg: '$rating'}}}
-            ], as: 'rating'
-          },
-        },
-      ])
       .populate(['userId'])
       .exec();
   }
