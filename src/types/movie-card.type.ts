@@ -1,4 +1,3 @@
-import { Staring } from './staring.type.js';
 import { User } from './user.type.js';
 
 export type MovieCard = {
@@ -9,7 +8,7 @@ export type MovieCard = {
   released: string,
   previewVideoLink: string,
   videoLink: string,
-  staring: Staring[],
+  staring: string,
   director: string,
   runTime: string,
   posterImage: string,

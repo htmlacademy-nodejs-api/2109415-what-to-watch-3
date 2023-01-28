@@ -1,4 +1,3 @@
-import { Staring } from '../../../types/staring.type';
 
 export default class CreateMovieCardDto {
   public title!: string;
@@ -8,7 +7,7 @@ export default class CreateMovieCardDto {
   public released!: string;
   public previewVideoLink!: string;
   public videoLink!: string;
-  public staring!: Staring[];
+  public staring!: string;
   public director!: string;
   public runTime!: string;
   public posterImage!: string;

@@ -30,6 +30,7 @@ export default class MovieCardController extends Controller {
     this.send(res, StatusCodes.OK, movieCardResponse);
   }
 
+
   public async create( {body}: Request<Record<string, unknown>, Record<string, unknown>, CreateMovieCardDto>,
     res: Response
   ): Promise<void> {const result = await this.movieCardService.create(body);

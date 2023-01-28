@@ -1,6 +1,5 @@
 import crypto from 'crypto';
 import { MovieCard} from '../types/movie-card.type.js';
-import { Staring} from '../types/staring.type.js';
 import { ClassConstructor, plainToInstance } from 'class-transformer';
 
 export const createMovieCard = (row: string) => {
@@ -10,11 +9,12 @@ export const createMovieCard = (row: string) => {
     title,
     description,
     postDate: new Date(postDate),
-    genres: <string[]><unknown>genres.split(';').map((genre) => ({ genre })),
+    genres: <string[]><unknown>genres.split(';'),
+    // genres: <string[]><unknown>genres.split(';').map((genre) => ({ genre })),
     released,
     previewVideoLink,
     videoLink,
-    staring: <Staring[]>staring.split(';').map((starName) => ({starName})),
+    staring: <string>staring.split(';').join(', '),
     director,
     runTime,
     posterImage,
@@ -34,3 +34,7 @@ export const createSHA256 = (line: string, salt: string): string => {
 
 export const fillDTO = <T, V>(someDto: ClassConstructor<T>, plainObject: V) =>
   plainToInstance(someDto, plainObject, {excludeExtraneousValues: true});
+
+export const createErrorObject = (message: string) => ({
+  error: message,
+});

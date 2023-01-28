@@ -1,6 +1,5 @@
 import typegoose, {defaultClasses, getModelForClass, Ref} from '@typegoose/typegoose';
 import { UserEntity } from '../user/user.entity.js';
-import { Staring } from '../../types/staring.type.js';
 
 const {prop, modelOptions} = typegoose;
 
@@ -45,7 +44,7 @@ export class MovieCardEntity extends defaultClasses.TimeStamps {
   public videoLink!: string;
 
   @prop()
-  public staring!: Staring[];
+  public staring!: string[];
 
   @prop()
   public runTime!: string;
