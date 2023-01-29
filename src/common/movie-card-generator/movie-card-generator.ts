@@ -1,4 +1,4 @@
-import { RATING_COUNT, ReleasedYear, RunTime } from '../../const.js';
+import { ReleasedYear, RunTime } from '../../const.js';
 import { MockData } from '../../types/mock-data.type.js';
 import { generateRandomValue, getRandomItems } from '../../utils/random.js';
 import { getRandomItem } from '../../utils/random.js';
@@ -17,7 +17,6 @@ export default class MovieCardGenerator implements MovieCardGeneratorInterface{
     const postDate = dayjs().subtract(generateRandomValue(FIRST_WEEK_DAY, LAST_WEEK_DAY), 'day').toISOString();
     const genres = getRandomItems<string>(this.mockData.genres).join(';');
     const released = generateRandomValue(ReleasedYear.Min, ReleasedYear.Max).toString();
-    const rating = generateRandomValue(0, RATING_COUNT).toString();
     const previewVideoLink = getRandomItem<string>(this.mockData.previewVideoLink);
     const videoLink = getRandomItem<string>(this.mockData.videoLink);
     const staring = getRandomItems<string>(this.mockData.staring).join(';');
@@ -26,12 +25,14 @@ export default class MovieCardGenerator implements MovieCardGeneratorInterface{
     const posterImage = getRandomItem<string>(this.mockData.posterImage);
     const backgroundImage = getRandomItem<string>(this.mockData.backgroundImage);
     const backgroundColor = getRandomItem<string>(this.mockData.backgroundColor);
-
-
+    const email = getRandomItem<string>(this.mockData.email);
+    // const avatar = getRandomItem<string>(this.mockData.avatar);
+    const avatar = 'user.jpg';
+    const name = getRandomItem<string>(this.mockData.name);
     return [
-      title, description, postDate, genres, released, rating, previewVideoLink,
+      title, description, postDate, genres, released, previewVideoLink,
       videoLink, staring, director, runTime, posterImage,
-      backgroundImage, backgroundColor
+      backgroundImage, backgroundColor, email, avatar, name
     ].join('\t');
   }
 }

@@ -1,7 +1,5 @@
 import typegoose, {defaultClasses, getModelForClass, Ref} from '@typegoose/typegoose';
-import { Genre } from '../../types/genre-type.enum.js';
 import { UserEntity } from '../user/user.entity.js';
-import { Staring } from '../../types/staring.type.js';
 
 const {prop, modelOptions} = typegoose;
 
@@ -23,11 +21,12 @@ export class MovieCardEntity extends defaultClasses.TimeStamps {
   @prop()
   public postDate!: Date;
 
-  @prop({
-    type: () => String,
-    enum: Genre
-  })
-  public type!: Genre;
+  // @prop({
+  //   type: () => String,
+  //   enum: Genre
+  // })
+  @prop()
+  public genres!: string[];
 
   @prop()
   public released!: string;
@@ -45,7 +44,7 @@ export class MovieCardEntity extends defaultClasses.TimeStamps {
   public videoLink!: string;
 
   @prop()
-  public staring!: Staring[];
+  public staring!: string[];
 
   @prop()
   public runTime!: string;
@@ -55,6 +54,9 @@ export class MovieCardEntity extends defaultClasses.TimeStamps {
 
   @prop()
   public backgroundImage!: string;
+
+  @prop()
+  public backgroundColor!: string;
 
   @prop()
   public director!: string;

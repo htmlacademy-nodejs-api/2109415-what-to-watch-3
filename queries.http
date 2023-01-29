@@ -1,5 +1,51 @@
 
- # Тестовые данные
- GET http://localhost:3123/api HTTP/1.1
+# Тестовые данные
+GET http://localhost:3123/api HTTP/1.1
+###
+
+# Фильмы
+## Получить список фильмов
+GET http://localhost:5090/films/test HTTP/1.1
+Content-Type: application/json
+###
+
+## Создать карточку фильма
+
+POST  http://localhost:5090/films HTTP/1.1
+Content-Type: application/json
+
+{
+ "title": "Билли Саммерс",
+ "description":"Новый детективный роман от короля ужасов.",
+ "postDate":  "2022-05-12T11:56:37.573Z",
+ "genres": ["Comedy"],
+ "released": "1999",
+ "previewVideoLink": "www.ya.ru",
+ "videoLink": "www.ya.ru",
+ "staring":  ["Goga" , "Magoga"],
+ "director": "Никита Михалков",
+ "runTime": "123",
+ "posterImage": "billy-summers.png",
+ "backgroundImage": "billy-summers.png",
+ "backgroundColor": "billy-summers.png",
+ "userId": "63d4053fd02d5a662d568c28"
+}
+
+###
+
+###
+
+ # Пользователи
+ ## Регистрация пользователя
+
+POST http://localhost:5090/users/register HTTP/1.1
+Content-Type: application/json
+
+ {
+   "email": "torans@overlook.net",
+   "avatarPath": "torrance.png",
+   "name": "Jack",
+   "password": "shining"
+ }
 
  ###

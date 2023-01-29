@@ -1,5 +1,7 @@
 export const textColors = ['black', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white', 'redBright', 'greenBright', 'yellowBright', 'blueBright', 'magentaBright', 'cyanBright', 'whiteBright'];
 
+export const genres = ['Comedy', 'Crime', 'Documentary', 'Drama', 'Horror', 'Family', 'Romance', 'Scifi', 'Thriller'];
+
 export const RATING_COUNT = 10;
 
 export const MAXIMUM_FILMS_COUNT = 60;
