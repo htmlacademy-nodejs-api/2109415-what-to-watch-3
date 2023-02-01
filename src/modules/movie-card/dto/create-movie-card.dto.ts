@@ -3,7 +3,7 @@ export default class CreateMovieCardDto {
   public title!: string;
   public description!: string;
   public postDate!: Date;
-  public genres!: string[];
+  public genre!: string;
   public released!: string;
   public previewVideoLink!: string;
   public videoLink!: string;

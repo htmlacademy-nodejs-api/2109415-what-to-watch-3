@@ -4,7 +4,7 @@ export type MovieCard = {
   title: string,
   description: string,
   postDate: Date,
-  genres: string[],
+  genre: string,
   released: string,
   previewVideoLink: string,
   videoLink: string,

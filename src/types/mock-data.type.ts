@@ -3,7 +3,7 @@ export type MockData = {
   title: string [],
   description: string [],
   postDate: string [],
-  genres:string [],
+  genre:string [],
   released: string[],
   rating: string[],
   previewVideoLink: string [],

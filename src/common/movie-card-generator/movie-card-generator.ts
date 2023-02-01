@@ -15,7 +15,7 @@ export default class MovieCardGenerator implements MovieCardGeneratorInterface{
     const title = getRandomItem<string>(this.mockData.title);
     const description = getRandomItem<string>(this.mockData.description);
     const postDate = dayjs().subtract(generateRandomValue(FIRST_WEEK_DAY, LAST_WEEK_DAY), 'day').toISOString();
-    const genres = getRandomItems<string>(this.mockData.genres).join(';');
+    const genres = getRandomItem<string>(this.mockData.genre);
     const released = generateRandomValue(ReleasedYear.Min, ReleasedYear.Max).toString();
     const previewVideoLink = getRandomItem<string>(this.mockData.previewVideoLink);
     const videoLink = getRandomItem<string>(this.mockData.videoLink);

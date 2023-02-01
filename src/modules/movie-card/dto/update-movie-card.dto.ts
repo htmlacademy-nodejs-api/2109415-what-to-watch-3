@@ -4,7 +4,7 @@ export default class UpdateMovieCardDto {
   public title?: string;
   public description?: string;
   public postDate?: Date;
-  public genres?: string[];
+  public genre?: string;
   public released?: string;
   public rating?: string;
   public previewVideoLink?: string;

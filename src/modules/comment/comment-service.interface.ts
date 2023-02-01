@@ -5,4 +5,5 @@ import CreateCommentDto from './dto/create-comment.dto.js';
 export interface CommentServiceInterface {
    create(dto: CreateCommentDto): Promise<DocumentType<CommentEntity>>;
    findByMovieCardId(movieCardId: string): Promise<DocumentType<CommentEntity>[]>;
+   deleteByOfferId(movieCardId: string): Promise<number>;
  }

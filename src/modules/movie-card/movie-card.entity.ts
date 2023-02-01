@@ -21,12 +21,8 @@ export class MovieCardEntity extends defaultClasses.TimeStamps {
   @prop()
   public postDate!: Date;
 
-  // @prop({
-  //   type: () => String,
-  //   enum: Genre
-  // })
   @prop()
-  public genres!: string[];
+  public genre!: string;
 
   @prop()
   public released!: string;
