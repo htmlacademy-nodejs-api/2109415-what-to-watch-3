@@ -63,7 +63,7 @@ GET http://localhost:5090/films/genre/thriller?limit=5 HTTP/1.1
 ###
 ## Список комментариев к фильму
 
-GET http://localhost:5090/films/628a27d729c45f2bf9f6806a/comments HTTP/1.1
+GET http://localhost:5090/films/63da42375e93538a0ac08c30/comments HTTP/1.1
 
 
 ###
