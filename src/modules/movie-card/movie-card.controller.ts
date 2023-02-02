@@ -5,7 +5,7 @@ import {Controller} from '../../common/controller/controller.js';
 import {Component} from '../../types/component.types.js';
 import {LoggerInterface} from '../../common/logger/logger.interface.js';
 import {HttpMethod} from '../../types/http-method.enum.js';
-import HttpError from '../../common/error/http-error.js';
+import HttpError from '../../common/errors/http-error.js';
 import { MovieCardServiceInterface } from './movie-card-service.interface.js';
 import { StatusCodes } from 'http-status-codes';
 import { fillDTO } from '../../utils/common.js';
@@ -16,6 +16,8 @@ import UpdateMovieCardDto from './dto/update-movie-card.dto.js';
 import { RequestQuery } from '../../types/request-query.type.js';
 import CommentResponse from '../comment/response/comment.response.js';
 import { CommentServiceInterface } from '../comment/comment-service.interface.js';
+import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-objectid.middleware.js';
+import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 
 
 type ParamsGetMovieCard= {
@@ -37,12 +39,30 @@ export default class MovieCardController extends Controller {
     this.logger.info('Register routes for MovieCardController…');
 
     this.addRoute({path: '/', method: HttpMethod.Get, handler: this.index});
-    this.addRoute({path: '/', method: HttpMethod.Post, handler: this.create});
+    this.addRoute({path: '/',
+      method: HttpMethod.Post,
+      handler: this.create,
+      middlewares: [new ValidateDtoMiddleware(CreateMovieCardDto)]
+    });
     this.addRoute({path: '/genre/:genre', method: HttpMethod.Get , handler: this.getFilmsByGenre});
-    this.addRoute({path: '/:movieCardId', method: HttpMethod.Get, handler: this.show});
-    this.addRoute({path: '/:movieCardId', method: HttpMethod.Delete, handler: this.delete});
-    this.addRoute({path: '/:movieCardId', method: HttpMethod.Patch, handler: this.update});
-    this.addRoute({path: '/:movieCardId/comments', method: HttpMethod.Get, handler: this.getComments});
+    this.addRoute({
+      path: '/:movieCardId',
+      method: HttpMethod.Get,
+      handler: this.show,
+      middlewares: [new ValidateObjectIdMiddleware('movieCardId')]});
+    this.addRoute({
+      path: '/:movieCardId',
+      method: HttpMethod.Delete,
+      handler: this.delete,
+      middlewares: [new ValidateObjectIdMiddleware('movieCardId')]});
+    this.addRoute({path: '/:movieCardId',
+      method: HttpMethod.Patch,
+      handler: this.update,
+      middlewares: [new ValidateObjectIdMiddleware('movieCardId')]});
+    this.addRoute({path: '/:movieCardId/comments',
+      method: HttpMethod.Get,
+      handler: this.getComments,
+      middlewares: [new ValidateObjectIdMiddleware('movieCardId')]});
   }
 
   public async index(_req: Request, res: Response): Promise<void> {

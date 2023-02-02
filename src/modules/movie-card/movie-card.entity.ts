@@ -25,7 +25,7 @@ export class MovieCardEntity extends defaultClasses.TimeStamps {
   public genre!: string;
 
   @prop()
-  public released!: string;
+  public released!: number;
 
   @prop({default: 0})
   public totalRating!: number;
@@ -43,7 +43,7 @@ export class MovieCardEntity extends defaultClasses.TimeStamps {
   public staring!: string[];
 
   @prop()
-  public runTime!: string;
+  public runTime!: number;
 
   @prop()
   public posterImage!: string;

@@ -7,8 +7,8 @@ import LoggerService from '../common/logger/logger.service.js';
 import ConfigService from '../common/config/config.service.js';
 import DatabaseService from '../common/database-client/database.service.js';
 import {Component} from '../types/component.types.js';
-import ExceptionFilter from '../common/error/exception-filter.js';
-import { ExceptionFilterInterface } from '../common/error/exception-filter.interface.js';
+import ExceptionFilter from '../common/errors/exception-filter.js';
+import { ExceptionFilterInterface } from '../common/errors/exception-filter.interface.js';
 
 const applicationContainer = new Container();
 

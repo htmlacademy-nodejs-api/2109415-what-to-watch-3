@@ -7,7 +7,7 @@ import {Component} from '../types/component.types.js';
 import {getURI} from '../utils/db.js';
 import {DatabaseInterface} from '../common/database-client/database.interface.js';
 import { ControllerInterface } from '../common/controller/controller.interface.js';
-import { ExceptionFilterInterface } from '../common/error/exception-filter.interface.js';
+import { ExceptionFilterInterface } from '../common/errors/exception-filter.interface.js';
 
 @injectable()
 export default class Application {
