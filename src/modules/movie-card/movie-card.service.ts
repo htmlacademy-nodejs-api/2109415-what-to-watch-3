@@ -85,10 +85,19 @@ export default class MovieCardService implements MovieCardServiceInterface{
   }
 
   public async incCommentCount(movieCardId: string, rating: number): Promise<DocumentType<MovieCardEntity> | null> {
+
+    const film = await this.movieCardModel.findById(movieCardId);
+
+    if (!film) {
+      return null;}
+
+    const avrRating = (film.totalRating + rating) / (film.commentCount + 1);
     return this.movieCardModel
-      .findByIdAndUpdate(movieCardId, [{'$inc': {
-        commentCount: 1, totalRating: rating
-      }},
-      {'$set': {rating: { '$divide': ['$totalRating', '$commentCount']}}}]).exec();
+      .findByIdAndUpdate(movieCardId,
+        {'$inc': {commentCount: 1,totalRating: rating }, '$set': {rating: avrRating }})
+      .exec();
+
+
   }
+
 }

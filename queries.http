@@ -34,13 +34,13 @@ Content-Type: application/json
 
 ## Получение карточки по идентификатору
 
-GET http://localhost:5090/films/63da42375e93538a0a8c30 HTTP/1.1
+GET http://localhost:5090/films/63da42375e93538a0ac08c1c HTTP/1.1
 
 ###
 
 ## Удаление карточки по идентификатору
 
-DELETE http://localhost:5090/films/63d4053fd02d5a662d568c2a HTTP/1.1
+DELETE http://localhost:5090/films/63da42375e93538a0ac08c17 HTTP/1.1
 
 ###
 
@@ -61,24 +61,51 @@ Content-Type: application/json
 GET http://localhost:5090/films/genre/thriller?limit=5 HTTP/1.1
 
 ###
+
+
+## Создать комментарий
+POST http://localhost:5090/comments HTTP/1.1
+Content-Type: application/json
+
+{
+  "text": "Как обстоят дела с коробками? Фирменная упаковка сохранена?",
+  "rating": 7,
+  "movieCardId": "63da42375e93538a0ac08c1c",
+  "userId": "63da42375e93538a0ac08c1a"
+}
+
+###
+
 ## Список комментариев к фильму
 
-GET http://localhost:5090/films/63da42375e93538a0ac08c30/comments HTTP/1.1
+GET http://localhost:5090/films/63da42375e93538a0ac08c17/comments HTTP/1.1
 
 
 ###
- # Пользователи
- ## Регистрация пользователя
+
+# Пользователи
+## Регистрация пользователя
 
 POST http://localhost:5090/users/register HTTP/1.1
 Content-Type: application/json
 
  {
-   "email": "toras@overlook.net",
-   "avatarPath": "torrance.jpg",
+   "email": "toads@ovexco.net",
+   "avatarPath": "torre.png",
    "name": "Jack",
    "password": "shining"
  }
 
 ###
 
+## Отправка аватарки пользователю
+
+POST http://localhost:5090/users/63da42375e93538a0ac08c15/avatar HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="avatar"; filename="avatar.jpg"
+Content-Type: image/png
+
+< /Users/ivanmerkulov/tmp/avatar.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--

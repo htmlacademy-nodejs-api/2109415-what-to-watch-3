@@ -1,11 +1,12 @@
-import { Contains, IsEmail, IsString, Length } from 'class-validator';
+import { IsEmail, IsString, Length, Validate } from 'class-validator';
+import { ValidationFileNameType } from '../../../utils/validation-file-name-type.js';
 
 export default class CreateUserDto {
 
   @IsEmail({}, {message: 'email must be valid address'})
   public email!: string ;
 
-  @Contains('.jpg', {message: 'Must be *.jpg file'})
+  @Validate(ValidationFileNameType)
   public avatarPath!: string;
 
   @IsString({message: 'name is required'})
