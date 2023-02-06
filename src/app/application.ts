@@ -9,6 +9,7 @@ import {DatabaseInterface} from '../common/database-client/database.interface.js
 import { ControllerInterface } from '../common/controller/controller.interface.js';
 import { ExceptionFilterInterface } from '../common/errors/exception-filter.interface.js';
 
+
 @injectable()
 export default class Application {
   private expressApp: Express;
