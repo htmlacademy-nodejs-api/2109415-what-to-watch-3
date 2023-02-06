@@ -15,7 +15,7 @@ export default class MovieCardGenerator implements MovieCardGeneratorInterface{
     const title = getRandomItem<string>(this.mockData.title);
     const description = getRandomItem<string>(this.mockData.description);
     const postDate = dayjs().subtract(generateRandomValue(FIRST_WEEK_DAY, LAST_WEEK_DAY), 'day').toISOString();
-    const genres = getRandomItems<string>(this.mockData.genres).join(';');
+    const genre = getRandomItem<string>(this.mockData.genre);
     const released = generateRandomValue(ReleasedYear.Min, ReleasedYear.Max).toString();
     const previewVideoLink = getRandomItem<string>(this.mockData.previewVideoLink);
     const videoLink = getRandomItem<string>(this.mockData.videoLink);
@@ -26,11 +26,10 @@ export default class MovieCardGenerator implements MovieCardGeneratorInterface{
     const backgroundImage = getRandomItem<string>(this.mockData.backgroundImage);
     const backgroundColor = getRandomItem<string>(this.mockData.backgroundColor);
     const email = getRandomItem<string>(this.mockData.email);
-    // const avatar = getRandomItem<string>(this.mockData.avatar);
     const avatar = 'user.jpg';
     const name = getRandomItem<string>(this.mockData.name);
     return [
-      title, description, postDate, genres, released, previewVideoLink,
+      title, description, postDate, genre, released, previewVideoLink,
       videoLink, staring, director, runTime, posterImage,
       backgroundImage, backgroundColor, email, avatar, name
     ].join('\t');

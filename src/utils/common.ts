@@ -4,19 +4,18 @@ import { ClassConstructor, plainToInstance } from 'class-transformer';
 
 export const createMovieCard = (row: string) => {
   const tokens = row.replace('\n', '').split('\t');
-  const [title, description, postDate, genres, released, previewVideoLink, videoLink, staring, director, runTime, posterImage, backgroundImage, backgroundColor, email, avatarPath, name] = tokens;
+  const [title, description, postDate, genre, released, previewVideoLink, videoLink, staring, director, runTime, posterImage, backgroundImage, backgroundColor, email, avatarPath, name] = tokens;
   return {
     title,
     description,
     postDate: new Date(postDate),
-    genres: <string[]><unknown>genres.split(';'),
-    // genres: <string[]><unknown>genres.split(';').map((genre) => ({ genre })),
-    released,
+    genre,
+    released: Number.parseInt(released, 10),
     previewVideoLink,
     videoLink,
     staring: <string>staring.split(';').join(', '),
     director,
-    runTime,
+    runTime: Number.parseInt(runTime, 10),
     posterImage,
     backgroundImage,
     backgroundColor,

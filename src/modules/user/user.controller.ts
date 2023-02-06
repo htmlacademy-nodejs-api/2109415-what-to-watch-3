@@ -7,10 +7,11 @@ import {Request, Response} from 'express';
 import CreateUserDto from './dto/create-user.dto.js';
 import { UserServiceInterface } from './user-service.interface.js';
 import { ConfigInterface } from '../../common/config/config.interface.js';
-import HttpError from '../../common/error/http-error.js';
+import HttpError from '../../common/errors/http-error.js';
 import { StatusCodes } from 'http-status-codes';
 import { fillDTO } from '../../utils/common.js';
 import UserResponse from './response/user.response.js';
+import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 
  @injectable()
 export default class UserController extends Controller {
@@ -22,7 +23,11 @@ export default class UserController extends Controller {
     super(logger);
     this.logger.info('Register routes for UserController…');
 
-    this.addRoute({path: '/register', method: HttpMethod.Post, handler: this.create});
+    this.addRoute({path: '/register',
+      method: HttpMethod.Post,
+      handler: this.create,
+      middlewares:[new ValidateDtoMiddleware(CreateUserDto)]
+    });
   }
 
   public async create(

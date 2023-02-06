@@ -43,17 +43,18 @@ export default class MovieCardService implements MovieCardServiceInterface{
       .exec();
   }
 
-  public async find(): Promise<DocumentType<MovieCardEntity>[]>{
-    const limit = MAXIMUM_FILMS_COUNT;
+  public async find(count?: number): Promise<DocumentType<MovieCardEntity>[]>{
+    const limit = count ?? MAXIMUM_FILMS_COUNT ;
     return this.movieCardModel
       .find({}, {}, {limit})
       .populate(['userId'])
       .exec();
   }
 
-  public async findByGenre(genre: string ): Promise<DocumentType<MovieCardEntity>[]>{
+  public async findByGenre(genre: string, count?: number): Promise<DocumentType<MovieCardEntity>[]>{
+    const limit = count ?? MAXIMUM_FILMS_COUNT ;
     return this.movieCardModel
-      .find({genre: genre})
+      .find({genre: genre}, {}, {limit})
       .populate(['userId'])
       .exec();
   }

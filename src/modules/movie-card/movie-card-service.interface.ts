@@ -8,8 +8,8 @@ export interface MovieCardServiceInterface {
   findById(movieCardId: string): Promise<DocumentType<MovieCardEntity> | null>;
   updateById(movieCardId: string, dto: UpdateMovieCardDto): Promise<DocumentType<MovieCardEntity> | null>;
   deleteById(movieCardId: string): Promise<DocumentType<MovieCardEntity> | null>;
-  find(): Promise<DocumentType<MovieCardEntity>[]>;
-  findByGenre(genre: string): Promise<DocumentType<MovieCardEntity>[]>;
+  find(count?: number): Promise<DocumentType<MovieCardEntity>[]>;
+  findByGenre(genre: string, count?: number): Promise<DocumentType<MovieCardEntity>[]>;
   findPromo(): Promise<DocumentType<MovieCardEntity> | null>;
   findFavorite(): Promise<DocumentType<MovieCardEntity>[]>;
   addToDeleteFromFavorite(movieCardId: string, isFavoriteFlag: number): Promise<DocumentType<MovieCardEntity> | null>;

@@ -1,7 +1,6 @@
-import { Expose } from 'class-transformer';
-import { UserEntity } from '../../user/user.entity';
-import { Ref } from '@typegoose/typegoose';
+import { Expose, Type } from 'class-transformer';
 import { Staring } from '../../../types/staring.type';
+import UserResponse from '../../user/response/user.response.js';
 
 export default class MovieCardDetailsResponse {
   @Expose()
@@ -17,7 +16,7 @@ export default class MovieCardDetailsResponse {
   public postDate!: Date;
 
   @Expose()
-  public genres!: string[];
+  public genre!: string;
 
   @Expose()
   public released!: string;
@@ -40,8 +39,9 @@ export default class MovieCardDetailsResponse {
   @Expose()
   public runTime!: string;
 
-  @Expose()
-  public userId!:Ref<UserEntity>;
+  @Expose({ name: 'userId'})
+  @Type(() => UserResponse)
+  public user!:UserResponse;
 
   @Expose()
   public posterImage!: string;
