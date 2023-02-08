@@ -9,6 +9,7 @@ import {DatabaseInterface} from '../common/database-client/database.interface.js
 import { ControllerInterface } from '../common/controller/controller.interface.js';
 import { ExceptionFilterInterface } from '../common/errors/exception-filter.interface.js';
 
+
 @injectable()
 export default class Application {
   private expressApp: Express;
@@ -20,6 +21,7 @@ export default class Application {
     @inject(Component.ExceptionFilterInterface) private exceptionFilter: ExceptionFilterInterface,
     @inject(Component.MovieCardController) private movieCardController: ControllerInterface,
     @inject(Component.UserController) private userController: ControllerInterface,
+    @inject(Component.CommentController) private commentController: ControllerInterface,
   ) {
     this.expressApp = express();
   }
@@ -27,10 +29,15 @@ export default class Application {
   public initRoutes() {
     this.expressApp.use('/films', this.movieCardController.router);
     this.expressApp.use('/users', this.userController.router);
+    this.expressApp.use('/comments', this.commentController.router);
   }
 
   public initMiddleware() {
     this.expressApp.use(express.json());
+    this.expressApp.use(
+      '/upload',
+      express.static(this.config.get('UPLOAD_DIRECTORY'))
+    );
   }
 
 
@@ -57,8 +64,5 @@ export default class Application {
     this.expressApp.listen(this.config.get('PORT'));
     this.logger.info(`Server started on http://localhost:${this.config.get('PORT')}`);
 
-    // this.expressApp.get('/', (_req, res) => {
-    //   res.send('Hello');
-    // });
   }
 }
