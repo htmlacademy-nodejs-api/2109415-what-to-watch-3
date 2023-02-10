@@ -104,7 +104,6 @@ export default class MovieCardController extends Controller {
     res: Response
   ): Promise<void> {
     const {movieCardId} = params;
-    console.log(movieCardId);
     const film = await this.movieCardService.findById(movieCardId);
 
     this.ok(res, fillDTO(MovieCardDetailsResponse, film));

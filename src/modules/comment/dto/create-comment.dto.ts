@@ -10,7 +10,7 @@ export default class CreateCommentDto {
   @Max(10, {message: 'From 0 to 10'})
   public rating!: number;
 
-  @IsMongoId({message: 'offerId field must be a valid id'})
+  @IsMongoId({message: 'movieCardId field must be a valid id'})
   public movieCardId!: string;
 
   public userId!: string;
