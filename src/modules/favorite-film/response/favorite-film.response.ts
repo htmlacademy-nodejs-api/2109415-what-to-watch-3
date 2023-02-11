@@ -1,6 +1,6 @@
 import { Expose, Type } from 'class-transformer';
-import UserResponse from '../../user/response/user.response';
-import MovieCardResponse from '../../movie-card/response/movie-card.response';
+import UserResponse from '../../user/response/user.response.js';
+import MovieCardResponse from '../../movie-card/response/movie-card.response.js';
 
 export default class FavoriteFilmResponse {
   @Expose()
