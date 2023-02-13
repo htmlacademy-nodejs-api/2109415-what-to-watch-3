@@ -50,6 +50,11 @@ export default class MovieCardController extends Controller {
     });
     this.addRoute({path: '/genre/:genre', method: HttpMethod.Get , handler: this.getFilmsByGenre});
     this.addRoute({
+      path: '/promo',
+      method: HttpMethod.Get,
+      handler: this.getPromo,
+    });
+    this.addRoute({
       path: '/:movieCardId',
       method: HttpMethod.Get,
       handler: this.show,
@@ -145,6 +150,12 @@ export default class MovieCardController extends Controller {
     Promise<void>{
     const films = await this.movieCardService.findByGenre(params.genre, query.limit);
     this.ok(res, fillDTO(MovieCardResponse, films));
+  }
+
+  public async getPromo(_req: Request, res: Response): Promise<void>
+  {
+    const promo = await this.movieCardService.findPromo();
+    this.ok(res, fillDTO(MovieCardResponse, promo));
   }
 
   public async getComments(
