@@ -1,4 +1,4 @@
-import { Contains, IsArray, IsDateString, IsEnum, IsHexColor, IsInt, IsMongoId, IsUrl, Max, MaxLength, Min, MinLength } from 'class-validator';
+import { Contains, IsArray, IsDateString, IsEnum, IsHexColor, IsInt, IsUrl, Max, MaxLength, Min, MinLength } from 'class-validator';
 import { GenreType } from '../../../types/genre-type.enum.js';
 
 export default class CreateMovieCardDto {
@@ -49,6 +49,5 @@ export default class CreateMovieCardDto {
   @IsHexColor({message: 'Must be Hex color'})
   public backgroundColor!: string;
 
-  @IsMongoId({message: 'userId field must be valid an id'})
   public userId!: string;
 }

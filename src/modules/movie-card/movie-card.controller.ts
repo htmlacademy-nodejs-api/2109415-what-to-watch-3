@@ -17,6 +17,8 @@ import { CommentServiceInterface } from '../comment/comment-service.interface.js
 import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-objectid.middleware.js';
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
+import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
+import { FavoriteFilmServiceInterface } from '../favorite-film/favorite-film.service.interface.js';
 
 
 type ParamsGetMovieCard= {
@@ -31,7 +33,8 @@ export default class MovieCardController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
     @inject(Component.MovieCardServiceInterface) private readonly movieCardService: MovieCardServiceInterface,
-    @inject(Component.CommentServiceInterface) private readonly commentService: CommentServiceInterface
+    @inject(Component.CommentServiceInterface) private readonly commentService: CommentServiceInterface,
+    @inject(Component.FavoriteFilmServiceInterface) private readonly favoriteFilmService: FavoriteFilmServiceInterface,
   ) {
     super(logger);
 
@@ -41,7 +44,9 @@ export default class MovieCardController extends Controller {
     this.addRoute({path: '/',
       method: HttpMethod.Post,
       handler: this.create,
-      middlewares: [new ValidateDtoMiddleware(CreateMovieCardDto)]
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateDtoMiddleware(CreateMovieCardDto)]
     });
     this.addRoute({path: '/genre/:genre', method: HttpMethod.Get , handler: this.getFilmsByGenre});
     this.addRoute({
@@ -58,6 +63,7 @@ export default class MovieCardController extends Controller {
       method: HttpMethod.Delete,
       handler: this.delete,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('movieCardId'),
         new DocumentExistsMiddleware(this.movieCardService, 'MovieCard', 'movieCardId'),
       ]
@@ -66,6 +72,7 @@ export default class MovieCardController extends Controller {
       method: HttpMethod.Patch,
       handler: this.update,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('movieCardId'),
         new DocumentExistsMiddleware(this.movieCardService, 'MovieCard', 'movieCardId'),
       ]
@@ -78,6 +85,14 @@ export default class MovieCardController extends Controller {
         new DocumentExistsMiddleware(this.movieCardService, 'MovieCard', 'movieCardId'),
       ]
     });
+    this.addRoute({
+      path: '/favorite/:userId',
+      method: HttpMethod.Get,
+      handler: this.getFavoriteFilms,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+      ]
+    });
   }
 
   public async index(_req: Request, res: Response): Promise<void> {
@@ -85,10 +100,11 @@ export default class MovieCardController extends Controller {
     this.ok(res, fillDTO(MovieCardResponse, films));
   }
 
-
-  public async create( {body}: Request<Record<string, unknown>, Record<string, unknown>, CreateMovieCardDto>,
+  public async create( req: Request<Record<string, unknown>, Record<string, unknown>, CreateMovieCardDto>,
     res: Response
-  ): Promise<void> {const result = await this.movieCardService.create(body);
+  ): Promise<void> {
+    const{body, user} = req;
+    const result = await this.movieCardService.create({...body, userId: user.id});
     const film = await this.movieCardService.findById(result.id);
     this.created(res, fillDTO(MovieCardResponse, film));
   }
@@ -98,7 +114,6 @@ export default class MovieCardController extends Controller {
     res: Response
   ): Promise<void> {
     const {movieCardId} = params;
-    console.log(movieCardId);
     const film = await this.movieCardService.findById(movieCardId);
 
     this.ok(res, fillDTO(MovieCardDetailsResponse, film));
@@ -110,7 +125,7 @@ export default class MovieCardController extends Controller {
   ): Promise<void> {
     const {movieCardId} = params;
     const film = await this.movieCardService.deleteById(movieCardId);
-
+    await this.favoriteFilmService.deleteByMovieCardId(movieCardId);
     await this.commentService.deleteByOfferId(movieCardId);
     this.noContent(res, film);
   }
@@ -138,6 +153,16 @@ export default class MovieCardController extends Controller {
   ): Promise<void> {
     const comments = await this.commentService.findByMovieCardId(params.movieCardId);
     this.ok(res, fillDTO(CommentResponse, comments));
+  }
+
+  public async getFavoriteFilms(
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    const userId = req.user.id;
+    const favoriteFilms = await this.favoriteFilmService.findByUserId(userId);
+    this.ok(res, fillDTO(MovieCardResponse, favoriteFilms.map((item) => item.movieCardId)));
+    console.log(favoriteFilms.map((item) => item.movieCardId));
   }
 }
 

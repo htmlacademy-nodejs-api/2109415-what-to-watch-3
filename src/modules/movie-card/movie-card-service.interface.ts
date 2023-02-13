@@ -2,8 +2,9 @@ import { DocumentType } from '@typegoose/typegoose';
 import CreateMovieCardDto from './dto/create-movie-card.dto';
 import { MovieCardEntity } from './movie-card.entity';
 import UpdateMovieCardDto from './dto/update-movie-card.dto';
+import { DocumentExistsInterface } from '../../types/document-exists.interface';
 
-export interface MovieCardServiceInterface {
+export interface MovieCardServiceInterface extends DocumentExistsInterface {
   create(dto: CreateMovieCardDto): Promise<DocumentType<MovieCardEntity>>;
   findById(movieCardId: string): Promise<DocumentType<MovieCardEntity> | null>;
   updateById(movieCardId: string, dto: UpdateMovieCardDto): Promise<DocumentType<MovieCardEntity> | null>;
