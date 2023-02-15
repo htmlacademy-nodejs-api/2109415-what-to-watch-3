@@ -40,15 +40,15 @@ export class MovieCardEntity extends defaultClasses.TimeStamps {
   public videoLink!: string;
 
   @prop()
-  public staring!: string[];
+  public staring!: [string];
 
   @prop()
   public runTime!: number;
 
-  @prop()
+  @prop({default: ''})
   public posterImage!: string;
 
-  @prop()
+  @prop({default: ''})
   public backgroundImage!: string;
 
   @prop()
@@ -66,10 +66,7 @@ export class MovieCardEntity extends defaultClasses.TimeStamps {
   })
   public userId!:Ref<UserEntity>;
 
-  @prop()
-  public isFavorite!: boolean;
-
-  @prop()
+  @prop({default: false})
   public isPromo!: boolean;
 }
 

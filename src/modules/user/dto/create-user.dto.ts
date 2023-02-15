@@ -1,19 +1,16 @@
-import { IsEmail, IsString, Length, Validate } from 'class-validator';
-import { ValidationFileNameType } from '../../../utils/validation-file-name-type.js';
+import { IsEmail, IsString, Length} from 'class-validator';
+import { UserName, UserPassword } from '../../../const.js';
 
 export default class CreateUserDto {
 
   @IsEmail({}, {message: 'email must be valid address'})
   public email!: string ;
 
-  @Validate(ValidationFileNameType)
-  public avatarPath!: string;
-
   @IsString({message: 'name is required'})
-  @Length(1, 15, {message: 'Min length is 1, max is 15'})
+  @Length(UserName.Min, UserName.Max, {message: `Min length is ${UserName.Min}, max is ${UserName.Max}`})
   public name!: string;
 
   @IsString({message: 'password is required'})
-  @Length(6, 12, {message: 'Min length for password is 6, max is 12'})
+  @Length(UserPassword.Min, UserPassword.Max, {message: `Min length for password is ${UserPassword.Min}, max is ${UserPassword.Max}`})
   public password!: string;
 }

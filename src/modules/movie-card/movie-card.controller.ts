@@ -19,6 +19,10 @@ import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.mid
 import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
 import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
 import { FavoriteFilmServiceInterface } from '../favorite-film/favorite-film.service.interface.js';
+import { ConfigInterface } from '../../common/config/config.interface.js';
+import { UploadFileMiddleware } from '../../common/middlewares/upload-file.middleware.js';
+import UploadPosterImageResponse from './response/upload-poster-image.response.js';
+import UploadBackgroundImageResponse from './response/upload-background-image.response.js';
 
 
 type ParamsGetMovieCard= {
@@ -32,11 +36,12 @@ type ParamsGetGenre = {
 export default class MovieCardController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
+    @inject(Component.ConfigInterface) configService: ConfigInterface,
     @inject(Component.MovieCardServiceInterface) private readonly movieCardService: MovieCardServiceInterface,
     @inject(Component.CommentServiceInterface) private readonly commentService: CommentServiceInterface,
     @inject(Component.FavoriteFilmServiceInterface) private readonly favoriteFilmService: FavoriteFilmServiceInterface,
   ) {
-    super(logger);
+    super(logger, configService);
 
     this.logger.info('Register routes for MovieCardController…');
 
@@ -49,6 +54,11 @@ export default class MovieCardController extends Controller {
         new ValidateDtoMiddleware(CreateMovieCardDto)]
     });
     this.addRoute({path: '/genre/:genre', method: HttpMethod.Get , handler: this.getFilmsByGenre});
+    this.addRoute({
+      path: '/promo',
+      method: HttpMethod.Get,
+      handler: this.getPromo,
+    });
     this.addRoute({
       path: '/:movieCardId',
       method: HttpMethod.Get,
@@ -68,7 +78,8 @@ export default class MovieCardController extends Controller {
         new DocumentExistsMiddleware(this.movieCardService, 'MovieCard', 'movieCardId'),
       ]
     });
-    this.addRoute({path: '/:movieCardId',
+    this.addRoute({
+      path: '/:movieCardId',
       method: HttpMethod.Patch,
       handler: this.update,
       middlewares: [
@@ -77,7 +88,8 @@ export default class MovieCardController extends Controller {
         new DocumentExistsMiddleware(this.movieCardService, 'MovieCard', 'movieCardId'),
       ]
     });
-    this.addRoute({path: '/:movieCardId/comments',
+    this.addRoute({
+      path: '/:movieCardId/comments',
       method: HttpMethod.Get,
       handler: this.getComments,
       middlewares: [
@@ -91,6 +103,26 @@ export default class MovieCardController extends Controller {
       handler: this.getFavoriteFilms,
       middlewares: [
         new PrivateRouteMiddleware(),
+      ]
+    });
+    this.addRoute({
+      path: '/:movieCardId/posterImage',
+      method: HttpMethod.Post,
+      handler: this.uploadPosterImage,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('movieCardId'),
+        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'posterImage'),
+      ]
+    });
+    this.addRoute({
+      path: '/:movieCardId/backgroundImage',
+      method: HttpMethod.Post,
+      handler: this.uploadBackgroundImage,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('movieCardId'),
+        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'backgroundImage'),
       ]
     });
   }
@@ -147,6 +179,12 @@ export default class MovieCardController extends Controller {
     this.ok(res, fillDTO(MovieCardResponse, films));
   }
 
+  public async getPromo(_req: Request, res: Response): Promise<void>
+  {
+    const promo = await this.movieCardService.findPromo();
+    this.ok(res, fillDTO(MovieCardResponse, promo));
+  }
+
   public async getComments(
     {params}: Request<core.ParamsDictionary | ParamsGetMovieCard, object, object>,
     res: Response
@@ -163,6 +201,22 @@ export default class MovieCardController extends Controller {
     const favoriteFilms = await this.favoriteFilmService.findByUserId(userId);
     this.ok(res, fillDTO(MovieCardResponse, favoriteFilms.map((item) => item.movieCardId)));
     console.log(favoriteFilms.map((item) => item.movieCardId));
+  }
+
+  public async uploadPosterImage(req: Request<core.ParamsDictionary | ParamsGetMovieCard>, res: Response) {
+    console.log(req.params, req.file?.filename );
+    const {movieCardId} = req.params;
+    const updateDto = { posterImage: req.file?.filename };
+    await this.movieCardService.updateById(movieCardId, updateDto);
+    console.log('ok');
+    this.created(res, fillDTO(UploadPosterImageResponse, {updateDto}));
+  }
+
+  public async uploadBackgroundImage(req: Request<core.ParamsDictionary | ParamsGetMovieCard>, res: Response) {
+    const {movieCardId} = req.params;
+    const updateDto = { backgroundImage: req.file?.filename };
+    await this.movieCardService.updateById(movieCardId, updateDto);
+    this.created(res, fillDTO(UploadBackgroundImageResponse, {updateDto}));
   }
 }
 

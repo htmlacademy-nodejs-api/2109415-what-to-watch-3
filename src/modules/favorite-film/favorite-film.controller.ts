@@ -10,6 +10,7 @@ import * as core from 'express-serve-static-core';
 import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
 import { fillDTO } from '../../utils/common.js';
 import FavoriteFilmResponse from './response/favorite-film.response.js';
+import { ConfigInterface } from '../../common/config/config.interface.js';
 
 type ParamsGetMovieCard= {
   movieCardId: string;
@@ -19,9 +20,10 @@ type ParamsGetMovieCard= {
 export class FavoriteFilmController extends Controller {
   constructor(
   @inject(Component.LoggerInterface) logger: LoggerInterface,
+  @inject(Component.ConfigInterface) configService: ConfigInterface,
   @inject(Component.FavoriteFilmServiceInterface) private readonly favoriteFilmService: FavoriteFilmServiceInterface,
   ) {
-    super(logger);
+    super(logger, configService);
     this.logger.info('Register routes for FavoriteFilmController');
     this.addRoute({
       path: '/:movieCardId/:status',
