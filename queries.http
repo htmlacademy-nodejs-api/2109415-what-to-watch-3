@@ -35,7 +35,7 @@ Content-Type: application/json
 
 ## Получение карточки по идентификатору
 
-GET http://localhost:5090/films/63da42375e93538a0ac08c1c HTTP/1.1
+GET http://localhost:5090/films/63e9e777ca225c7a5bdf3df0 HTTP/1.1
 
 ###
 
@@ -44,6 +44,35 @@ GET http://localhost:5090/films/63da42375e93538a0ac08c1c HTTP/1.1
 GET http://localhost:5090/films/promo HTTP/1.1
 
 ###
+
+# Загрузка изображения постера для фильма
+POST http://localhost:5090/films/63e9e777ca225c7a5bdf3df0/posterImage HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvYWRzQG92ZXhjby5uZXQiLCJpZCI6IjYzZTllODM1ZTNiNTIzNmZiNTFjYjBiMyIsImlhdCI6MTY3NjQ1Nzc2NSwiZXhwIjoxNjc2NjMwNTY1fQ.-W7FAQt8CAsawcOfkDGb7tXB7zAKMwiMSwjOorirqmo
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="posterImage"; filename="orlando.jpg"
+Content-Type: image/png
+
+< ./markup/img/orlando.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+# Загрузка изображения фона для фильма
+POST http://localhost:5090/films/63e9e777ca225c7a5bdf3df0/backgroundImage HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvYWRzQG92ZXhjby5uZXQiLCJpZCI6IjYzZTllODM1ZTNiNTIzNmZiNTFjYjBiMyIsImlhdCI6MTY3NjQ1Nzc2NSwiZXhwIjoxNjc2NjMwNTY1fQ.-W7FAQt8CAsawcOfkDGb7tXB7zAKMwiMSwjOorirqmo
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="backgroundImage"; filename="snatch.jpg"
+Content-Type: image/png
+
+< ./markup/img/snatch.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
 
 ## Удаление карточки по идентификатору
 
@@ -146,6 +175,6 @@ Content-Type: image/png
 
 ## Проверка токена пользователя
 GET http://localhost:5090/users/login HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvYWRzQG92ZXhjby5uZXQiLCJpZCI6IjYzZTllODM1ZTNiNTIzNmZiNTFjYjBiMyIsImlhdCI6MTY3NjI3MzgwMiwiZXhwIjoxNjc2NDQ2NjAyfQ.uh6N3cFxV9XQ1kUf4WPE2B1VHmW7uajzJwYgtS3D2IA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvYWRzQG92ZXhjby5uZXQiLCJpZCI6IjYzZTllODM1ZTNiNTIzNmZiNTFjYjBiMyIsImlhdCI6MTY3NjQ1Nzc2NSwiZXhwIjoxNjc2NjMwNTY1fQ.-W7FAQt8CAsawcOfkDGb7tXB7zAKMwiMSwjOorirqmo
 
 ###

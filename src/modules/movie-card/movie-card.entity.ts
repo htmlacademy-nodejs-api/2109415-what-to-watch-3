@@ -45,10 +45,10 @@ export class MovieCardEntity extends defaultClasses.TimeStamps {
   @prop()
   public runTime!: number;
 
-  @prop()
+  @prop({default: ''})
   public posterImage!: string;
 
-  @prop()
+  @prop({default: ''})
   public backgroundImage!: string;
 
   @prop()

@@ -13,3 +13,4 @@ mocks/test-data.tsv
 mocks/mock-data.tsv
 /mongodb/
 /upload/
+/static/

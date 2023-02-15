@@ -1,13 +1,14 @@
 import { IsInt, IsMongoId, IsString, Length, Max, Min } from 'class-validator';
+import { CommentRating, CommentText } from '../../../const.js';
 
 export default class CreateCommentDto {
   @IsString({message: 'text is required'})
-  @Length(5, 1024, {message: 'Min length is 5, max is 1024'})
+  @Length(CommentText.Min, CommentText.Max, {message: `Min length is ${CommentText.Min}, max is ${CommentText.Max}`})
   public text!: string;
 
   @IsInt({message: 'Interger is required'})
-  @Min(0, {message: 'From 0 to 10'})
-  @Max(10, {message: 'From 0 to 10'})
+  @Min(CommentRating.Min, {message: `Not less than ${CommentRating.Min}`})
+  @Max(CommentRating.Max, {message: `Not more than ${CommentRating.Max}`})
   public rating!: number;
 
   @IsMongoId({message: 'movieCardId field must be a valid id'})

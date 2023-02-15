@@ -2,8 +2,6 @@ export const textColors = ['black', 'red', 'green', 'yellow', 'blue', 'magenta',
 
 export const genres = ['Comedy', 'Crime', 'Documentary', 'Drama', 'Horror', 'Family', 'Romance', 'Scifi', 'Thriller'];
 
-export const RATING_COUNT = 10;
-
 export const MAXIMUM_FILMS_COUNT = 60;
 
 export enum ReleasedYear {
@@ -48,4 +46,9 @@ export const BackgroungFormats = ['.jpj'];
 export enum CommentText {
   Min = 5,
   Max = 1024,
+}
+
+export enum CommentRating {
+  Min = 0,
+  Max = 10,
 }

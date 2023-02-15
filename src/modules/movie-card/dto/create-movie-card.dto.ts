@@ -41,8 +41,8 @@ export default class CreateMovieCardDto {
   @Max(RunTime.Max, {message: `Maximum runtime is ${RunTime.Max}`})
   public runTime!: number;
 
-  @Contains('.jpg', {message: 'Must be *.jpg file'})
-  public posterImage!: string;
+  // @Contains('.jpg', {message: 'Must be *.jpg file'})
+  // public posterImage!: string;
 
   @Contains('.jpg', {message: 'Must be *.jpg file'})
   public backgroundImage!: string;
