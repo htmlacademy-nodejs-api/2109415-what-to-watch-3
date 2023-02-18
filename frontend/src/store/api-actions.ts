@@ -10,6 +10,10 @@ import { APIRoute, DEFAULT_GENRE, NameSpace } from '../const';
 import { User } from '../types/user';
 import { NewUser } from '../types/new-user';
 import { dropToken, saveToken } from '../services/token';
+import { adaptCommentToClient, adaptCommentsToClient, adaptMovieCardDetailsToClient, adaptMovieCardsToClient } from '../utils/adapters/adaptersToClient';
+import MovieCardDetailsDto from '../dto/movie-card/movie-card-detail.dto';
+import { adaptCreateCommentToServer, adaptCreateFilmToServer, adaptEditFilmToServer } from '../utils/adapters/adaptersToServer';
+import CommentDto from '../dto/comment/comment.dto';
 
 type Extra = {
   api: AxiosInstance;
@@ -19,9 +23,9 @@ export const fetchFilms = createAsyncThunk<Film[], undefined, { extra: Extra }>(
   `${NameSpace.Films}/fetchFilms`,
   async (_arg, { extra }) => {
     const { api } = extra;
-    const { data } = await api.get<Film[]>(APIRoute.Films);
+    const { data } = await api.get<MovieCardDetailsDto[]>(APIRoute.Films);
 
-    return data;
+    return adaptMovieCardsToClient(data);
   }
 );
 
@@ -35,18 +39,17 @@ export const fetchFilmsByGenre = createAsyncThunk<
   if (genre === DEFAULT_GENRE) {
     route = APIRoute.Films;
   }
-  const { data } = await api.get<Film[]>(route);
+  const { data } = await api.get<MovieCardDetailsDto[]>(route);
 
-  return data;
+  return adaptMovieCardsToClient(data);
 });
 
 export const fetchFilm = createAsyncThunk<Film, string, { extra: Extra }>(
   `${NameSpace.Film}/fetchFilm`,
   async (id, { extra }) => {
     const { api } = extra;
-    const { data } = await api.get<Film>(`${APIRoute.Films}/${id}`);
-
-    return data;
+    const { data } = await api.get<MovieCardDetailsDto>(`${APIRoute.Films}/${id}`);
+    return adaptMovieCardDetailsToClient(data);
   }
 );
 
@@ -54,12 +57,12 @@ export const editFilm = createAsyncThunk<Film, Film, { extra: Extra }>(
   `${NameSpace.Film}/editFilm`,
   async (filmData, { extra }) => {
     const { api } = extra;
-    const { data } = await api.patch<Film>(
+    const { data } = await api.patch<MovieCardDetailsDto>(
       `${APIRoute.Films}/${filmData.id}`,
-      filmData
+      adaptEditFilmToServer(filmData)
     );
 
-    return data;
+    return adaptMovieCardDetailsToClient(data);
   }
 );
 
@@ -67,9 +70,9 @@ export const addFilm = createAsyncThunk<Film, NewFilm, { extra: Extra }>(
   `${NameSpace.Film}/addFilm`,
   async (filmData, { extra }) => {
     const { api } = extra;
-    const { data } = await api.post<Film>(APIRoute.Films, filmData);
+    const { data } = await api.post<MovieCardDetailsDto>(APIRoute.Films, adaptCreateFilmToServer(filmData));
 
-    return data;
+    return adaptMovieCardDetailsToClient(data);
   }
 );
 
@@ -77,9 +80,9 @@ export const deleteFilm = createAsyncThunk<Film, string, { extra: Extra }>(
   `${NameSpace.Film}/deleteFilm`,
   async (id, { extra }) => {
     const { api } = extra;
-    const { data } = await api.delete<Film>(`${APIRoute.Films}/${id}`);
+    const { data } = await api.delete<MovieCardDetailsDto>(`${APIRoute.Films}/${id}`);
 
-    return data;
+    return adaptMovieCardDetailsToClient(data);
   }
 );
 
@@ -89,9 +92,9 @@ export const fetchReviews = createAsyncThunk<
   { extra: Extra }
 >(`${NameSpace.Reviews}/fetchReviews`, async (id, { extra }) => {
   const { api } = extra;
-  const { data } = await api.get<Review[]>(`${APIRoute.Comments}/${id}`);
+  const { data } = await api.get<CommentDto[]>(`${APIRoute.Comments}/${id}`);
 
-  return data;
+  return adaptCommentsToClient(data);
 });
 
 export const postReview = createAsyncThunk<
@@ -100,9 +103,9 @@ export const postReview = createAsyncThunk<
   { extra: Extra }
 >(`${NameSpace.Reviews}/postReview`, async ({ id, review }, { extra }) => {
   const { api } = extra;
-  const { data } = await api.post<Review>(`${APIRoute.Comments}/${id}`, review);
+  const { data } = await api.post<CommentDto>(`${APIRoute.Comments}/${id}`, adaptCreateCommentToServer(review));
 
-  return data;
+  return adaptCommentToClient(data);
 });
 
 export const checkAuth = createAsyncThunk<User, undefined, { extra: Extra }>(

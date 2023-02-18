@@ -11,6 +11,8 @@ import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.m
 import { fillDTO } from '../../utils/common.js';
 import FavoriteFilmResponse from './response/favorite-film.response.js';
 import { ConfigInterface } from '../../common/config/config.interface.js';
+import MovieCardResponse from '../movie-card/response/movie-card.response.js';
+import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-objectid.middleware.js';
 
 type ParamsGetMovieCard= {
   movieCardId: string;
@@ -25,16 +27,35 @@ export class FavoriteFilmController extends Controller {
   ) {
     super(logger, configService);
     this.logger.info('Register routes for FavoriteFilmController');
+
+    this.addRoute({
+      path: '/',
+      method: HttpMethod.Get,
+      handler: this.getFavoriteFilms,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+      ]
+    });
+
     this.addRoute({
       path: '/:movieCardId/:status',
       method: HttpMethod.Post,
       handler: this.update,
       middlewares: [
         new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('movieCardId'),
       ]
     });
   }
 
+  public async getFavoriteFilms(
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    const {user} = req;
+    const favoriteFilms = await this.favoriteFilmService.findByUserId(user.id);
+    this.ok(res, fillDTO(MovieCardResponse, favoriteFilms.map((item) => item.movieCardId)));
+  }
 
   public async update (
     {params, user}: Request<core.ParamsDictionary | ParamsGetMovieCard, unknown, unknown, RequestQuery>,

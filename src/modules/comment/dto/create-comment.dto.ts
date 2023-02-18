@@ -1,4 +1,4 @@
-import { IsInt, IsMongoId, IsString, Length, Max, Min } from 'class-validator';
+import { IsInt, IsString, Length, Max, Min } from 'class-validator';
 import { CommentRating, CommentText } from '../../../const.js';
 
 export default class CreateCommentDto {
@@ -11,7 +11,6 @@ export default class CreateCommentDto {
   @Max(CommentRating.Max, {message: `Not more than ${CommentRating.Max}`})
   public rating!: number;
 
-  @IsMongoId({message: 'movieCardId field must be a valid id'})
   public movieCardId!: string;
 
   public userId!: string;

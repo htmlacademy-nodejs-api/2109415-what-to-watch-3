@@ -38,14 +38,14 @@ export const DEFAULT_GENRE = 'All genres';
 
 export enum APIRoute {
   Films = '/films',
-  Promo = '/promo',
-  Favorite = '/favorite',
+  Promo = '/films/promo',
+  Favorite = '/favoritefilms',
   Comments = '/comments',
-  Login = '/login',
-  Logout = '/logout',
-  Register = '/register',
-  Genre = '/genre',
-  Avatar = '/avatar',
+  Login = '/users/login',
+  Logout = '/users/logout',
+  Register = '/users/register',
+  Genre = '/films/genre',
+  Avatar = '/users/avatar',
 }
 
 export enum NameSpace {
