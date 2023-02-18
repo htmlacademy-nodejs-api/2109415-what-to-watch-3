@@ -38,9 +38,18 @@ export class FavoriteFilmController extends Controller {
     });
 
     this.addRoute({
-      path: '/:movieCardId/:status',
+      path: '/:movieCardId',
       method: HttpMethod.Post,
-      handler: this.update,
+      handler: this.setFavorite,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('movieCardId'),
+      ]
+    });
+    this.addRoute({
+      path: '/:movieCardId',
+      method: HttpMethod.Delete,
+      handler: this.unSetFavorite,
       middlewares: [
         new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('movieCardId'),
@@ -57,20 +66,20 @@ export class FavoriteFilmController extends Controller {
     this.ok(res, fillDTO(MovieCardResponse, favoriteFilms.map((item) => item.movieCardId)));
   }
 
-  public async update (
+  public async setFavorite (
     {params, user}: Request<core.ParamsDictionary | ParamsGetMovieCard, unknown, unknown, RequestQuery>,
     res: Response):
     Promise<void>{
-    const {movieCardId, status} = params;
-    if (status === '1') {
-      const result = await this.favoriteFilmService.create({movieCardId: params.movieCardId, userId: user.id});
-      this.created(res, fillDTO(FavoriteFilmResponse, result));
-    } else{
-
-      const favoriteFilmCardId = await this.favoriteFilmService.findIdByMovieCardIdAndUserId(movieCardId, user.id);
-      if (favoriteFilmCardId){
-        await this.favoriteFilmService.deleteById(favoriteFilmCardId);}
-      this.noContent(res, favoriteFilmCardId);}
+    const result = await this.favoriteFilmService.create({movieCardId: params.movieCardId, userId: user.id});
+    this.created(res, fillDTO(FavoriteFilmResponse, result));
   }
 
+  public async unSetFavorite (
+    {params, user}: Request<core.ParamsDictionary | ParamsGetMovieCard, unknown, unknown, RequestQuery>,
+    res: Response):
+    Promise<void>{
+    const favoriteFilmCardId = await this.favoriteFilmService.findIdByMovieCardIdAndUserId( params.movieCardId, user.id);
+    if (favoriteFilmCardId){
+      await this.favoriteFilmService.deleteById(favoriteFilmCardId);}
+    this.noContent(res, favoriteFilmCardId);}
 }

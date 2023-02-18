@@ -39,3 +39,4 @@ export const adaptCreateCommentToServer =
     text: comment.comment,
     rating: comment.rating,
   }) ;
+

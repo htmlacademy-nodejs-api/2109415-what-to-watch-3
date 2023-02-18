@@ -10,10 +10,11 @@ import { APIRoute, DEFAULT_GENRE, NameSpace } from '../const';
 import { User } from '../types/user';
 import { NewUser } from '../types/new-user';
 import { dropToken, saveToken } from '../services/token';
-import { adaptCommentToClient, adaptCommentsToClient, adaptMovieCardDetailsToClient, adaptMovieCardsToClient } from '../utils/adapters/adaptersToClient';
+import { adaptCommentToClient, adaptCommentsToClient, adaptMovieCardDetailsToClient, adaptMovieCardsToClient, adaptUserToClient } from '../utils/adapters/adaptersToClient';
 import MovieCardDetailsDto from '../dto/movie-card/movie-card-detail.dto';
 import { adaptCreateCommentToServer, adaptCreateFilmToServer, adaptEditFilmToServer } from '../utils/adapters/adaptersToServer';
 import CommentDto from '../dto/comment/comment.dto';
+import UserDto from '../dto/user/user.dto';
 
 type Extra = {
   api: AxiosInstance;
@@ -113,8 +114,8 @@ export const checkAuth = createAsyncThunk<User, undefined, { extra: Extra }>(
   async (_arg, { extra }) => {
     const { api } = extra;
     try {
-      const { data } = await api.get<User>(APIRoute.Login);
-      return data;
+      const { data } = await api.get<UserDto>(APIRoute.Login);
+      return adaptUserToClient(data);
     } catch (error) {
       dropToken();
       return Promise.reject(error);
@@ -127,14 +128,14 @@ export const login = createAsyncThunk<User, AuthData, { extra: Extra }>(
   async (authData, { extra }) => {
     const { api } = extra;
 
-    const { data } = await api.post<User & { token: Token }>(
+    const { data } = await api.post<UserDto & { token: Token }>(
       APIRoute.Login,
       authData
     );
     const { token } = data;
     saveToken(token);
 
-    return data;
+    return adaptUserToClient(data);
   }
 );
 
@@ -153,18 +154,18 @@ export const fetchFavoriteFilms = createAsyncThunk<
   { extra: Extra }
 >(`${NameSpace.FavoriteFilms}/fetchFavoriteFilms`, async (_arg, { extra }) => {
   const { api } = extra;
-  const { data } = await api.get<Film[]>(APIRoute.Favorite);
-
-  return data;
+  const { data } = await api.get<MovieCardDetailsDto[]>(APIRoute.Favorite);
+  console.log('pk');
+  return adaptMovieCardsToClient(data);
 });
 
 export const fetchPromo = createAsyncThunk<Film, undefined, { extra: Extra }>(
   `${NameSpace.Promo}/fetchPromo`,
   async (_arg, { extra }) => {
     const { api } = extra;
-    const { data } = await api.get<Film>(APIRoute.Promo);
+    const { data } = await api.get<MovieCardDetailsDto>(APIRoute.Promo);
 
-    return data;
+    return adaptMovieCardDetailsToClient(data);
   }
 );
 
@@ -172,9 +173,9 @@ export const setFavorite = createAsyncThunk<Film, Film['id'], { extra: Extra }>(
   `${NameSpace.FavoriteFilms}/setFavorite`,
   async (id, { extra }) => {
     const { api } = extra;
-    const { data } = await api.post<Film>(`${APIRoute.Favorite}/${id}`);
+    const { data } = await api.post<MovieCardDetailsDto>(`${APIRoute.Favorite}/${id}`);
 
-    return data;
+    return adaptMovieCardDetailsToClient(data);
   }
 );
 
@@ -184,9 +185,9 @@ export const unsetFavorite = createAsyncThunk<
   { extra: Extra }
 >(`${NameSpace.FavoriteFilms}/unsetFavorite`, async (id, { extra }) => {
   const { api } = extra;
-  const { data } = await api.delete<Film>(`${APIRoute.Favorite}/${id}`);
+  const { data } = await api.delete<MovieCardDetailsDto>(`${APIRoute.Favorite}/${id}`);
 
-  return data;
+  return adaptMovieCardDetailsToClient(data);
 });
 
 export const registerUser = createAsyncThunk<void, NewUser, { extra: Extra }>(
