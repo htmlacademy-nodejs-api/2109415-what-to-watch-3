@@ -14,4 +14,4 @@ mocks/mock-data.tsv
 /mongodb/
 /upload/
 /static/
-frontend/node_modules/.cache
+/frontend/node_modules

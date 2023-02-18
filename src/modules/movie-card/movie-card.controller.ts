@@ -98,14 +98,6 @@ export default class MovieCardController extends Controller {
       ]
     });
     this.addRoute({
-      path: '/favorite/:userId',
-      method: HttpMethod.Get,
-      handler: this.getFavoriteFilms,
-      middlewares: [
-        new PrivateRouteMiddleware(),
-      ]
-    });
-    this.addRoute({
       path: '/:movieCardId/posterImage',
       method: HttpMethod.Post,
       handler: this.uploadPosterImage,
@@ -193,22 +185,11 @@ export default class MovieCardController extends Controller {
     this.ok(res, fillDTO(CommentResponse, comments));
   }
 
-  public async getFavoriteFilms(
-    req: Request,
-    res: Response
-  ): Promise<void> {
-    const userId = req.user.id;
-    const favoriteFilms = await this.favoriteFilmService.findByUserId(userId);
-    this.ok(res, fillDTO(MovieCardResponse, favoriteFilms.map((item) => item.movieCardId)));
-    console.log(favoriteFilms.map((item) => item.movieCardId));
-  }
-
   public async uploadPosterImage(req: Request<core.ParamsDictionary | ParamsGetMovieCard>, res: Response) {
     console.log(req.params, req.file?.filename );
     const {movieCardId} = req.params;
     const updateDto = { posterImage: req.file?.filename };
     await this.movieCardService.updateById(movieCardId, updateDto);
-    console.log('ok');
     this.created(res, fillDTO(UploadPosterImageResponse, {updateDto}));
   }
 
