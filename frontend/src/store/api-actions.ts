@@ -155,7 +155,6 @@ export const fetchFavoriteFilms = createAsyncThunk<
 >(`${NameSpace.FavoriteFilms}/fetchFavoriteFilms`, async (_arg, { extra }) => {
   const { api } = extra;
   const { data } = await api.get<MovieCardDetailsDto[]>(APIRoute.Favorite);
-  console.log('pk');
   return adaptMovieCardsToClient(data);
 });
 
