@@ -181,5 +181,4 @@ Content-Type: image/png
 GET http://localhost:5090/users/login HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvYWRzQG92ZXhjby5uZXQiLCJpZCI6IjYzZTllODM1ZTNiNTIzNmZiNTFjYjBiMyIsImlhdCI6MTY3NjU2MDg5MCwiZXhwIjoxNjc2NzMzNjkwfQ.okGDMy94ol9WpLIYTerECsSld6FEt_lv6S5YUqB0Y5E
 
-
 ###
