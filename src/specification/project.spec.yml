@@ -30,7 +30,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Film'
+              $ref: '#/components/schemas/NewFilm'
         required: true
       responses:
         '201':
@@ -510,7 +510,51 @@ paths:
 
 components:
   schemas:
-
+    NewFilm:
+      type: object
+      properties:
+        title:
+          type: string
+          example: The Grand Budapest Hotel
+        description:
+          type: string
+          example:  In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave's friend and protege.
+        genres:
+          type: string
+          example: "Comedy"
+        released:
+          type: number
+          example: 2014
+        previewVideoLink:
+          type: string
+          example: https://some-link
+        videoLink:
+          type: string
+          example: https://some-link
+        staring:
+          type: string
+          example: "Bill Murray"
+        director:
+          type: string
+          example: Wes Andersonstring
+        runTime:
+          type: number
+          example: 99
+        posterImage:
+          type: string
+          example: img/the-grand-budapest-hotel-poster.jpg
+        backgroundImage:
+          type: string
+          example: img/the-grand-budapest-hotel-bg.jpg
+        user:
+            type: object
+            properties:
+              id:
+                type: number
+                example: 4
+              name:
+                type: string
+                example: Kate Muir
     Film:
       type: object
       properties:
@@ -542,10 +586,8 @@ components:
           type: string
           example: https://some-link
         staring:
-          type: array
-          items:
-            type: string
-            example: "Bill Murray"
+          type: string
+          example: "Bill Murray"
         director:
           type: string
           example: Wes Andersonstring
