@@ -40,7 +40,7 @@ export class MovieCardEntity extends defaultClasses.TimeStamps {
   public videoLink!: string;
 
   @prop()
-  public staring!: [string];
+  public staring!: string;
 
   @prop()
   public runTime!: number;
