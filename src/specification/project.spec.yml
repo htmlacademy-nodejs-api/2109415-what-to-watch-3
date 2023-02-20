@@ -49,7 +49,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundErrorMessage'
+                $ref: '#/components/schemas/ValidationErrorMessage'
         '401':
           description: Пользователь не авторизован
           content:
@@ -59,7 +59,7 @@ paths:
       security:
         - tokenAuth: []
 
-    put:
+    patch:
       tags:
         - Films
       summary: Редактирование карточки фильма
@@ -70,7 +70,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Film'
+              $ref: '#/components/schemas/NewFilm'
         required: true
       responses:
         '200':
@@ -89,7 +89,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundErrorMessage'
+                $ref: '#/components/schemas/ValidationErrorMessage'
         '401':
           description: Пользователь не авторизован
           content:
@@ -600,6 +600,12 @@ components:
         backgroundImage:
           type: string
           example: img/the-grand-budapest-hotel-bg.jpg
+        backgroundColor:
+          type: string
+          example: '#fcb043'
+        isFavorite:
+          type: boolean
+          example: false
         user:
             type: object
             properties:
@@ -732,7 +738,7 @@ components:
       properties:
         error:
           type: string
-          example: You are not logged in or you do not have permission to this page.
+          example: Unauthorized or Invalid token
 
     DeleteFilmSuccessMessage:
       type: object
@@ -740,6 +746,13 @@ components:
         error:
           type: string
           example: Film id 999 deleted.
+
+    ValidationErrorMessage:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Validation error
 
     NotFoundErrorMessage:
       type: object

@@ -25,7 +25,7 @@ export class AuthenticateMiddleware implements MiddlewareInterface {
 
       return next(new HttpError(
         StatusCodes.UNAUTHORIZED,
-        'Invalid token',
+        'Unauthorized or Invalid token',
         'AuthenticateMiddleware')
       );
     }

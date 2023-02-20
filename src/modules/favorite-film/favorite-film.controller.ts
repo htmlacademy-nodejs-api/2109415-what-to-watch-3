@@ -20,6 +20,11 @@ type ParamsGetMovieCard= {
   status: number;
 }
 
+const checkingMiddlewares = [
+  new PrivateRouteMiddleware(),
+  new ValidateObjectIdMiddleware('movieCardId'),
+];
+
 export class FavoriteFilmController extends Controller {
   constructor(
   @inject(Component.LoggerInterface) logger: LoggerInterface,
@@ -43,19 +48,13 @@ export class FavoriteFilmController extends Controller {
       path: '/:movieCardId',
       method: HttpMethod.Post,
       handler: this.setFavorite,
-      middlewares: [
-        new PrivateRouteMiddleware(),
-        new ValidateObjectIdMiddleware('movieCardId'),
-      ]
+      middlewares: checkingMiddlewares
     });
     this.addRoute({
       path: '/:movieCardId',
       method: HttpMethod.Delete,
       handler: this.unSetFavorite,
-      middlewares: [
-        new PrivateRouteMiddleware(),
-        new ValidateObjectIdMiddleware('movieCardId'),
-      ]
+      middlewares: checkingMiddlewares
     });
   }
 

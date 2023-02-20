@@ -6,14 +6,12 @@ import {Controller} from '../../common/controller/controller.js';
 import {Component} from '../../types/component.types.js';
 import {LoggerInterface} from '../../common/logger/logger.interface.js';
 import {CommentServiceInterface} from './comment-service.interface.js';
-// import CreateCommentDto from './dto/create-comment.dto.js';
 import HttpError from '../../common/errors/http-error.js';
 import {HttpMethod} from '../../types/http-method.enum.js';
 import {fillDTO} from '../../utils/common.js';
 import CommentResponse from './response/comment.response.js';
 import { MovieCardServiceInterface } from '../movie-card/movie-card-service.interface.js';
 import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
-// import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 import { ConfigInterface } from '../../common/config/config.interface.js';
 import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
 
@@ -42,7 +40,6 @@ export default class CommentController extends Controller {
       handler: this.create,
       middlewares: [
         new PrivateRouteMiddleware(),
-        // new ValidateDtoMiddleware(CreateCommentDto)
       ]
     });
     this.addRoute({

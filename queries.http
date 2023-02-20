@@ -11,7 +11,7 @@ Content-Type: application/json
 ## Создать карточку фильма
 
 POST  http://localhost:5090/films HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvYWRzQG92ZXhjby5uZXQiLCJpZCI6IjYzZTllODM1ZTNiNTIzNmZiNTFjYjBiMyIsImlhdCI6MTY3NjI3MzgwMiwiZXhwIjoxNjc2NDQ2NjAyfQ.uh6N3cFxV9XQ1kUf4WPE2B1VHmW7uajzJwYgtS3D2IA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvYWRzQG92ZXhjby5uZXQiLCJpZCI6IjYzZTllODM1ZTNiNTIzNmZiNTFjYjBiMyIsImlhdCI6MTY3NjczODc5OSwiZXhwIjoxNjc2OTExNTk5fQ.aJ_sH8cbm3ktCVncEnSbroq3uv-JSO8OcPPiZNSZpdY
 Content-Type: application/json
 
 {
