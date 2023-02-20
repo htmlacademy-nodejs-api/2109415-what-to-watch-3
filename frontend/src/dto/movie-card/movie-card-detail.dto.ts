@@ -33,5 +33,8 @@ export default class MovieCardDetailsDto{
 
   public backgroundColor!: string;
 
-  public commentCount!:number;
+  public commentCount!: number;
+
+  public isFavorite!: boolean;
+
 }

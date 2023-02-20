@@ -134,13 +134,20 @@ export default class MovieCardController extends Controller {
   }
 
   public async show(
-    {params}: Request<core.ParamsDictionary | ParamsGetMovieCard>,
+    req: Request<core.ParamsDictionary | ParamsGetMovieCard>,
     res: Response
   ): Promise<void> {
-    const {movieCardId} = params;
+    const {movieCardId} = req.params;
     const film = await this.movieCardService.findById(movieCardId);
-
-    this.ok(res, fillDTO(MovieCardDetailsResponse, film));
+    const resultFilm = fillDTO(MovieCardDetailsResponse, film);
+    const{user} = req;
+    if (user) {
+      const favoriteFilm = await this.favoriteFilmService.findIdByMovieCardIdAndUserId(movieCardId, user.id);
+      if (favoriteFilm) {
+        resultFilm.isFavorite = true;
+      }
+    }
+    this.ok(res, resultFilm);
   }
 
   public async delete(
@@ -171,9 +178,18 @@ export default class MovieCardController extends Controller {
     this.ok(res, fillDTO(MovieCardResponse, films));
   }
 
-  public async getPromo(_req: Request, res: Response): Promise<void>
+  public async getPromo(req: Request, res: Response): Promise<void>
   {
     const promo = await this.movieCardService.findPromo();
+    const {movieCardId} = req.params;
+    const resultFilm = fillDTO(MovieCardDetailsResponse, promo);
+    const{user} = req;
+    if (user) {
+      const favoriteFilm = await this.favoriteFilmService.findIdByMovieCardIdAndUserId(movieCardId, user.id);
+      if (favoriteFilm) {
+        resultFilm.isFavorite = true;
+      }
+    }
     this.ok(res, fillDTO(MovieCardResponse, promo));
   }
 

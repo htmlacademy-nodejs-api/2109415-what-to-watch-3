@@ -13,9 +13,7 @@ import { MovieCardModel } from '../modules/movie-card/movie-card.entity.js';
 import DatabaseService from '../common/database-client/database.service.js';
 import { MovieCard } from '../types/movie-card.type.js';
 import { getURI } from '../utils/db.js';
-
-const DEFAULT_DB_PORT = 27017;
-const DEFAULT_USER_PASSWORD = '123456';
+import { DEFAULT_DB_PORT, DEFAULT_USER_PASSWORD } from '../const.js';
 
 export default class ImportCommand implements CliCommandInterface {
 

@@ -38,7 +38,7 @@ export const adaptMovieCardDetailsToClient =
   runTime: film.runTime,
   genre: film.genre,
   released: film.released,
-  isFavorite: false,
+  isFavorite: film.isFavorite,
   user: adaptUserToClient(film.user),
 });
 

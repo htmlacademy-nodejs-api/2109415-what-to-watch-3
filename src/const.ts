@@ -4,6 +4,12 @@ export const genres = ['Comedy', 'Crime', 'Documentary', 'Drama', 'Horror', 'Fam
 
 export const MAXIMUM_FILMS_COUNT = 60;
 
+export const FIRST_WEEK_DAY = 1;
+export const LAST_WEEK_DAY = 7;
+
+export const DEFAULT_DB_PORT = 27017;
+export const DEFAULT_USER_PASSWORD = '123456';
+
 export enum ReleasedYear {
   Min = 1880,
   Max = 2022,

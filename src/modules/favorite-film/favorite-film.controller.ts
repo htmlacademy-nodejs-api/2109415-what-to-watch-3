@@ -9,21 +9,28 @@ import { Request, Response } from 'express';
 import * as core from 'express-serve-static-core';
 import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
 import { fillDTO } from '../../utils/common.js';
-import FavoriteFilmResponse from './response/favorite-film.response.js';
 import { ConfigInterface } from '../../common/config/config.interface.js';
 import MovieCardResponse from '../movie-card/response/movie-card.response.js';
 import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-objectid.middleware.js';
+import { MovieCardServiceInterface } from '../movie-card/movie-card-service.interface.js';
+import MovieCardDetailsResponse from '../movie-card/response/movie-card-detail.response.js';
 
 type ParamsGetMovieCard= {
   movieCardId: string;
   status: number;
 }
 
+const checkingMiddlewares = [
+  new PrivateRouteMiddleware(),
+  new ValidateObjectIdMiddleware('movieCardId'),
+];
+
 export class FavoriteFilmController extends Controller {
   constructor(
   @inject(Component.LoggerInterface) logger: LoggerInterface,
   @inject(Component.ConfigInterface) configService: ConfigInterface,
   @inject(Component.FavoriteFilmServiceInterface) private readonly favoriteFilmService: FavoriteFilmServiceInterface,
+  @inject(Component.MovieCardServiceInterface) private readonly movieCardService: MovieCardServiceInterface,
   ) {
     super(logger, configService);
     this.logger.info('Register routes for FavoriteFilmController');
@@ -41,19 +48,13 @@ export class FavoriteFilmController extends Controller {
       path: '/:movieCardId',
       method: HttpMethod.Post,
       handler: this.setFavorite,
-      middlewares: [
-        new PrivateRouteMiddleware(),
-        new ValidateObjectIdMiddleware('movieCardId'),
-      ]
+      middlewares: checkingMiddlewares
     });
     this.addRoute({
       path: '/:movieCardId',
       method: HttpMethod.Delete,
       handler: this.unSetFavorite,
-      middlewares: [
-        new PrivateRouteMiddleware(),
-        new ValidateObjectIdMiddleware('movieCardId'),
-      ]
+      middlewares: checkingMiddlewares
     });
   }
 
@@ -70,8 +71,11 @@ export class FavoriteFilmController extends Controller {
     {params, user}: Request<core.ParamsDictionary | ParamsGetMovieCard, unknown, unknown, RequestQuery>,
     res: Response):
     Promise<void>{
-    const result = await this.favoriteFilmService.create({movieCardId: params.movieCardId, userId: user.id});
-    this.created(res, fillDTO(FavoriteFilmResponse, result));
+    await this.favoriteFilmService.create({movieCardId: params.movieCardId, userId: user.id});
+    const film = await this.movieCardService.findById(params.movieCardId);
+    const resultFilm = fillDTO(MovieCardDetailsResponse, film);
+    resultFilm.isFavorite = true;
+    this.created(res,resultFilm);
   }
 
   public async unSetFavorite (
@@ -81,5 +85,9 @@ export class FavoriteFilmController extends Controller {
     const favoriteFilmCardId = await this.favoriteFilmService.findIdByMovieCardIdAndUserId( params.movieCardId, user.id);
     if (favoriteFilmCardId){
       await this.favoriteFilmService.deleteById(favoriteFilmCardId);}
-    this.noContent(res, favoriteFilmCardId);}
+    const film = await this.movieCardService.findById(params.movieCardId);
+    const resultFilm = fillDTO(MovieCardDetailsResponse, film);
+    resultFilm.isFavorite = false;
+    this.created(res,resultFilm);
+  }
 }

@@ -53,5 +53,8 @@ export default class MovieCardDetailsResponse {
   public backgroundColor!: string;
 
   @Expose()
+  public isFavorite?: boolean;
+
+  @Expose()
   public commentCount!:number;
 }
