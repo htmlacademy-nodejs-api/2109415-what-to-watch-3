@@ -13,7 +13,7 @@ import { MovieCardModel } from '../modules/movie-card/movie-card.entity.js';
 import DatabaseService from '../common/database-client/database.service.js';
 import { MovieCard } from '../types/movie-card.type.js';
 import { getURI } from '../utils/db.js';
-import { DEFAULT_DB_PORT, DEFAULT_USER_PASSWORD } from '../const.js';
+import { DEFAULT_USER_PASSWORD, DataBaseDefault } from '../const.js';
 
 export default class ImportCommand implements CliCommandInterface {
 
@@ -37,7 +37,7 @@ export default class ImportCommand implements CliCommandInterface {
   private async saveMovieCard(movieCard: MovieCard){
     const user = await this.userService.findOrCreate({
       ...movieCard.user,
-      password: DEFAULT_USER_PASSWORD
+      password: DataBaseDefault.UserPassword.toString()
     }, this.salt);
 
     await this.movieCardService.create({
@@ -58,7 +58,7 @@ export default class ImportCommand implements CliCommandInterface {
   }
 
   public async execute(filename: string, login: string, password: string, host: string, dbname: string, salt: string): Promise<void> {
-    const uri = getURI(login, password, host, DEFAULT_DB_PORT, dbname);
+    const uri = getURI(login, password, host, DataBaseDefault.Port, dbname);
     this.salt = salt;
 
     await this.databaseService.connect(uri);

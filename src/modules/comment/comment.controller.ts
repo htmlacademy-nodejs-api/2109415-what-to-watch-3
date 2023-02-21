@@ -14,6 +14,7 @@ import { MovieCardServiceInterface } from '../movie-card/movie-card-service.inte
 import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
 import { ConfigInterface } from '../../common/config/config.interface.js';
 import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
+import { IdCard } from '../../const.js';
 
 type ParamsGetMovieCard= {
   movieCardId: string;
@@ -35,7 +36,7 @@ export default class CommentController extends Controller {
 
     this.logger.info('Register routes for CommentController…');
     this.addRoute({
-      path: '/:movieCardId',
+      path: `/:${IdCard.movieCardId}`,
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
@@ -43,11 +44,11 @@ export default class CommentController extends Controller {
       ]
     });
     this.addRoute({
-      path: '/:movieCardId',
+      path: `/:${IdCard.movieCardId}`,
       method: HttpMethod.Get,
       handler: this.getComments,
       middlewares: [
-        new DocumentExistsMiddleware(this.movieCardService, 'MovieCard', 'movieCardId'),
+        new DocumentExistsMiddleware(this.movieCardService, 'MovieCard', IdCard.movieCardId),
       ]
     });
   }

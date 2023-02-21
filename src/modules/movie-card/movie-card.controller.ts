@@ -23,6 +23,7 @@ import { ConfigInterface } from '../../common/config/config.interface.js';
 import { UploadFileMiddleware } from '../../common/middlewares/upload-file.middleware.js';
 import UploadPosterImageResponse from './response/upload-poster-image.response.js';
 import UploadBackgroundImageResponse from './response/upload-background-image.response.js';
+import { IdCard } from '../../const.js';
 
 
 type ParamsGetMovieCard= {
@@ -60,60 +61,60 @@ export default class MovieCardController extends Controller {
       handler: this.getPromo,
     });
     this.addRoute({
-      path: '/:movieCardId',
+      path: `/:${IdCard.movieCardId}`,
       method: HttpMethod.Get,
       handler: this.show,
       middlewares: [
-        new ValidateObjectIdMiddleware('movieCardId'),
-        new DocumentExistsMiddleware(this.movieCardService, 'MovieCard', 'movieCardId'),
+        new ValidateObjectIdMiddleware(IdCard.movieCardId),
+        new DocumentExistsMiddleware(this.movieCardService, 'MovieCard', IdCard.movieCardId),
       ]
     });
     this.addRoute({
-      path: '/:movieCardId',
+      path: `/:${IdCard.movieCardId}`,
       method: HttpMethod.Delete,
       handler: this.delete,
       middlewares: [
         new PrivateRouteMiddleware(),
-        new ValidateObjectIdMiddleware('movieCardId'),
-        new DocumentExistsMiddleware(this.movieCardService, 'MovieCard', 'movieCardId'),
+        new ValidateObjectIdMiddleware(IdCard.movieCardId),
+        new DocumentExistsMiddleware(this.movieCardService, 'MovieCard', IdCard.movieCardId),
       ]
     });
     this.addRoute({
-      path: '/:movieCardId',
+      path: `/:${IdCard.movieCardId}`,
       method: HttpMethod.Patch,
       handler: this.update,
       middlewares: [
         new PrivateRouteMiddleware(),
-        new ValidateObjectIdMiddleware('movieCardId'),
-        new DocumentExistsMiddleware(this.movieCardService, 'MovieCard', 'movieCardId'),
+        new ValidateObjectIdMiddleware(IdCard.movieCardId),
+        new DocumentExistsMiddleware(this.movieCardService, 'MovieCard', IdCard.movieCardId),
       ]
     });
     this.addRoute({
-      path: '/:movieCardId/comments',
+      path: `/:${IdCard.movieCardId}/comments`,
       method: HttpMethod.Get,
       handler: this.getComments,
       middlewares: [
-        new ValidateObjectIdMiddleware('movieCardId'),
-        new DocumentExistsMiddleware(this.movieCardService, 'MovieCard', 'movieCardId'),
+        new ValidateObjectIdMiddleware(IdCard.movieCardId),
+        new DocumentExistsMiddleware(this.movieCardService, 'MovieCard', IdCard.movieCardId),
       ]
     });
     this.addRoute({
-      path: '/:movieCardId/posterImage',
+      path: `/:${IdCard.movieCardId}/posterImage`,
       method: HttpMethod.Post,
       handler: this.uploadPosterImage,
       middlewares: [
         new PrivateRouteMiddleware(),
-        new ValidateObjectIdMiddleware('movieCardId'),
+        new ValidateObjectIdMiddleware(IdCard.movieCardId),
         new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'posterImage'),
       ]
     });
     this.addRoute({
-      path: '/:movieCardId/backgroundImage',
+      path: `/:${IdCard.movieCardId}/backgroundImagex`,
       method: HttpMethod.Post,
       handler: this.uploadBackgroundImage,
       middlewares: [
         new PrivateRouteMiddleware(),
-        new ValidateObjectIdMiddleware('movieCardId'),
+        new ValidateObjectIdMiddleware(IdCard.movieCardId),
         new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'backgroundImage'),
       ]
     });
