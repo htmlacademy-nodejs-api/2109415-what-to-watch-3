@@ -4,10 +4,16 @@ export const genres = ['Comedy', 'Crime', 'Documentary', 'Drama', 'Horror', 'Fam
 
 export const MAXIMUM_FILMS_COUNT = 60;
 
-export const FIRST_WEEK_DAY = 1;
-export const LAST_WEEK_DAY = 7;
+export enum DayOfWeek {
+  First = 1,
+  Last = 7,
+}
 
-export const DEFAULT_DB_PORT = 27017;
+
+export enum DataBaseDefault {
+  Port = 27017,
+  UserPassword = '123456',
+}
 export const DEFAULT_USER_PASSWORD = '123456';
 
 export enum ReleasedYear {
@@ -57,4 +63,8 @@ export enum CommentText {
 export enum CommentRating {
   Min = 0,
   Max = 10,
+}
+
+export enum IdCard {
+  movieCardId = 'movieCardId',
 }

@@ -1,4 +1,4 @@
-import { FIRST_WEEK_DAY, LAST_WEEK_DAY, ReleasedYear, RunTime } from '../../const.js';
+import { DayOfWeek, ReleasedYear, RunTime } from '../../const.js';
 import { MockData } from '../../types/mock-data.type.js';
 import { generateRandomValue, getRandomItems } from '../../utils/random.js';
 import { getRandomItem } from '../../utils/random.js';
@@ -11,7 +11,7 @@ export default class MovieCardGenerator implements MovieCardGeneratorInterface{
   public generate(): string {
     const title = getRandomItem<string>(this.mockData.title);
     const description = getRandomItem<string>(this.mockData.description);
-    const postDate = dayjs().subtract(generateRandomValue(FIRST_WEEK_DAY, LAST_WEEK_DAY), 'day').toISOString();
+    const postDate = dayjs().subtract(generateRandomValue(DayOfWeek.First, DayOfWeek.Last), 'day').toISOString();
     const genre = getRandomItem<string>(this.mockData.genre);
     const released = generateRandomValue(ReleasedYear.Min, ReleasedYear.Max).toString();
     const previewVideoLink = getRandomItem<string>(this.mockData.previewVideoLink);

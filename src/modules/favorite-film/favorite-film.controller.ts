@@ -14,6 +14,7 @@ import MovieCardResponse from '../movie-card/response/movie-card.response.js';
 import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-objectid.middleware.js';
 import { MovieCardServiceInterface } from '../movie-card/movie-card-service.interface.js';
 import MovieCardDetailsResponse from '../movie-card/response/movie-card-detail.response.js';
+import { IdCard } from '../../const.js';
 
 type ParamsGetMovieCard= {
   movieCardId: string;
@@ -22,7 +23,7 @@ type ParamsGetMovieCard= {
 
 const checkingMiddlewares = [
   new PrivateRouteMiddleware(),
-  new ValidateObjectIdMiddleware('movieCardId'),
+  new ValidateObjectIdMiddleware(IdCard.movieCardId),
 ];
 
 export class FavoriteFilmController extends Controller {
@@ -45,13 +46,13 @@ export class FavoriteFilmController extends Controller {
     });
 
     this.addRoute({
-      path: '/:movieCardId',
+      path: `/:${IdCard.movieCardId}`,
       method: HttpMethod.Post,
       handler: this.setFavorite,
       middlewares: checkingMiddlewares
     });
     this.addRoute({
-      path: '/:movieCardId',
+      path: `/:${IdCard.movieCardId}`,
       method: HttpMethod.Delete,
       handler: this.unSetFavorite,
       middlewares: checkingMiddlewares

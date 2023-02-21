@@ -101,19 +101,19 @@ GET http://localhost:5090/films/genre/thriller?limit=5 HTTP/1.1
 ## Получение список фильмов «К просмотру»
 
 GET http://localhost:5090/favoritefilms HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvYWRzQG92ZXhjby5uZXQiLCJpZCI6IjYzZTllODM1ZTNiNTIzNmZiNTFjYjBiMyIsImlhdCI6MTY3NjczODc5OSwiZXhwIjoxNjc2OTExNTk5fQ.aJ_sH8cbm3ktCVncEnSbroq3uv-JSO8OcPPiZNSZpdY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvYWRzQG92ZXhjby5uZXQiLCJpZCI6IjYzZTllODM1ZTNiNTIzNmZiNTFjYjBiMyIsImlhdCI6MTY3Njk1ODgyOSwiZXhwIjoxNjc3MTMxNjI5fQ.Qv88dLMPANgohbj4aK81hvcvzrwIjqi_1lOj6NolEK4
 ###
 
 ##  Добавление фильм в спискок «К просмотру»
 
 POST http://localhost:5090/favoritefilms/63e9e777ca225c7a5bdf3df0 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvYWRzQG92ZXhjby5uZXQiLCJpZCI6IjYzZTllODM1ZTNiNTIzNmZiNTFjYjBiMyIsImlhdCI6MTY3NjczODc5OSwiZXhwIjoxNjc2OTExNTk5fQ.aJ_sH8cbm3ktCVncEnSbroq3uv-JSO8OcPPiZNSZpdY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvYWRzQG92ZXhjby5uZXQiLCJpZCI6IjYzZTllODM1ZTNiNTIzNmZiNTFjYjBiMyIsImlhdCI6MTY3Njk1ODgyOSwiZXhwIjoxNjc3MTMxNjI5fQ.Qv88dLMPANgohbj4aK81hvcvzrwIjqi_1lOj6NolEK4
 ###
 
 ##  Удаление фильм из списка «К просмотру»
 
-DELETE http://localhost:5090/favoritefilms/63e9e777ca225c7a5bdf3df0 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvYWRzQG92ZXhjby5uZXQiLCJpZCI6IjYzZTllODM1ZTNiNTIzNmZiNTFjYjBiMyIsImlhdCI6MTY3NjczODc5OSwiZXhwIjoxNjc2OTExNTk5fQ.aJ_sH8cbm3ktCVncEnSbroq3uv-JSO8OcPPiZNSZpdY
+DELETE http://localhost:5090/favoritefilms/63e9e777ca225c7a5bdf3e0c HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvYWRzQG92ZXhjby5uZXQiLCJpZCI6IjYzZTllODM1ZTNiNTIzNmZiNTFjYjBiMyIsImlhdCI6MTY3Njk1ODgyOSwiZXhwIjoxNjc3MTMxNjI5fQ.Qv88dLMPANgohbj4aK81hvcvzrwIjqi_1lOj6NolEK4
 ###
 
 ## Создать комментарий
